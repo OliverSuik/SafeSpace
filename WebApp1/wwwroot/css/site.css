@@ -1,0 +1,232 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+    color: #0366d6;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
+}
+
+.floor-image {
+    width: 500px;
+    height: 1500px;
+    background-size: contain;
+}
+
+.image-container {
+    width: 500px;
+    position: relative;
+    -webkit-box-shadow: 0px 0px 46px -16px rgba(135,124,135,1);
+    -moz-box-shadow: 0px 0px 46px -16px rgba(135,124,135,1);
+    box-shadow: 0px 0px 46px -16px rgba(135,124,135,1);
+}
+
+.square {
+    width: 30px;
+    height: 30px;
+    background-color: rgba(220, 220, 220, 0.80);
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    border: none;
+    border-radius: 20%;
+}
+
+    .square:hover {
+        background-color: rgba(220, 220, 220, 0.30);
+    }
+
+    .square:focus {
+        outline: none;
+    }
+
+.square-selected {
+    width: 30px;
+    height: 30px;
+    background-color: rgb(78, 160, 255);
+    color: white;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    border: none;
+    border-radius: 20%;
+}
+
+.square-confirmed {
+    width: 30px;
+    height: 30px;
+    background-color: rgb(120, 120, 120);
+    color: white;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    border: none;
+    border-radius: 20%;
+}
+
+.square-confirmed-user {
+    width: 30px;
+    height: 30px;
+    background-color: rgb(78, 160, 255);
+    color: white;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    border: none;
+    border-radius: 20%;
+}
+
+.admin-content {
+    position: relative;
+    width: 500px;
+}
+
+.plan {
+    width: 100%;
+}
+
+.button-action {
+    padding-left: 400px;
+    padding-bottom: 15px;
+}
+
+.floor-image {
+    width: 500px;
+    height: 1500px;
+    background-size: contain;
+}
+
+.selection-box {
+    border: rgb(67, 101, 238);
+    border-style: dotted;
+    position: absolute;
+    right: 500px;
+}
+
+.seatMenu {
+    width: 100px;
+    height: 37px;
+    background-color: rgb(95, 170, 255);
+    position: relative;
+    right: 34px;
+    top: 30px;
+    border-radius: 5%;
+}
+
+    .seatMenu:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border: 12px solid transparent;
+        border-bottom-color: rgb(95, 170, 255);
+        border-top: 0;
+        margin-left: -12px;
+        margin-top: -12px;
+    }
+
+.hidden {
+    display: none;
+}
+
+.click-area {
+    width: 400px;
+    height: 400px;
+}
+
+.plan-content {
+    width: 500px;
+}
+
+.square-selected-admin {
+    width: 30px;
+    height: 30px;
+    background-color: rgba(95, 170, 255, 0.75);
+    color: white;
+    position: absolute;
+    text-align: center;
+    padding-top: 3px;
+    cursor: move;
+    border-radius: 20%;
+}
+
+    .square-selected-admin:active {
+        background-color: rgb(185, 218, 255);
+    }
+
+select {
+    width: 900px;
+    margin: 10px;
+}

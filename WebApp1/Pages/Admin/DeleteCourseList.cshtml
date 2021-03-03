@@ -1,0 +1,36 @@
+﻿@page
+@model WebApp1.Pages.Admin.DeleteCourseListModel
+@{
+    ViewData["Title"] = "Courses";
+}
+<h4>Courses</h4>
+<a asp-page="CreateSession">Back</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Course[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Course[0].Lecturer)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Course)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lecturer)
+                </td>
+                <td>
+                    <a asp-page="DeleteCourse" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

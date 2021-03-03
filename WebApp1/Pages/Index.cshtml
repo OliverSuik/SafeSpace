@@ -1,0 +1,32 @@
+﻿@page
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to SafeSpace</h1>
+    <ul class="navbar-nav flex-grow-1">
+        @if (User.IsInRole("Admin"))
+        {
+            <li class="nav-item">
+                <a class="btn btn-outline-primary mt-3" asp-area="" asp-page="/Admin/Sessions">View sessions</a>
+            </li>
+        }
+        else if (User.IsInRole("Lecturer"))
+        {
+            <li class="nav-item">
+                <a class="btn btn-outline-primary mt-3" asp-area="" asp-page="/Lecturer/Sessions">View sessions</a>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a class="btn btn-outline-primary mt-3" asp-area="" asp-page="/Student/SelectSession">Book a seat</a>
+            </li>
+        }
+    </ul>
+</div>

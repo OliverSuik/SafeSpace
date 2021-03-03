@@ -1,0 +1,36 @@
+﻿@page
+@model WebApp1.Pages.Admin.DeleteClassroomListModel
+@{
+    ViewData["Title"] = "Classrooms";
+}
+<h4>Classrooms</h4>
+<a asp-page="CreateSession">Back</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Classroom[0].Number)
+            </th>
+            <th>
+                Seats
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Classroom)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Number)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Seats.Count)
+                </td>
+                <td>
+                    <a asp-page="DeleteClassroom" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

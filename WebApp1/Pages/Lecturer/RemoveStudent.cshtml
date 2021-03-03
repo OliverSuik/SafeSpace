@@ -1,0 +1,23 @@
+﻿@page
+@model WebApp1.Pages.Lecturer.RemoveStudentModel
+@{
+    ViewData["Title"] = "Remove student";
+}
+
+<h3>Remove student</h3>
+
+<h4>Are you sure you want to remove this student from this session?</h4>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Name: @Html.DisplayFor(model => model.User.Name)
+        </dt>
+    </dl>
+
+    <form method="post">
+        <input type="hidden" asp-for="User.ID" />
+        <input type="submit" value="Remove" class="btn btn-danger" /> |
+        <a asp-page="Sessions">Back to List</a>
+    </form>
+</div>

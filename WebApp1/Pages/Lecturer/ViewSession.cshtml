@@ -1,0 +1,63 @@
+﻿@page
+@model WebApp1.Pages.Lecturer.ViewSessionModel
+@{
+    ViewData["Title"] = "Session";
+    String _backGroundImage = "https://eu-central-1.linodeobjects.com/wemply/abb/public/55ef77ff25714b63844cf34590d835ac.4.svg";
+}
+<h4>@Model.SessionTitle</h4>
+@*<a asp-page="AddStudent">Add new student</a>*@
+<div>
+    <a asp-page="Sessions">Back to List</a>
+</div>
+
+<h4>Users</h4>
+<h5>Occupancy: @Model.Occupancy/@Model.NrOfSeats</h5>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OccupiedSeats[0].User)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OccupiedSeats[0].ID)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OccupiedSeats)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ID)
+                </td>
+                <td>
+                    <a asp-page="RemoveStudent" asp-route-id="@item.User.ID">Remove student</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+<h4>Seating</h4>
+<div class="image-container mt-4">
+    @if (_backGroundImage == null)
+    {
+        <p>Loading...</p>
+    }
+    else
+    {
+        <div class="floor-image" style="background-image: url(@_backGroundImage)" />
+        @foreach (var seat in Model.Seats)
+        {
+            <div class="@((seat.User.Name != "-" ? "square-confirmed-user" : "square" ))"
+                 id="square-@seat.ID" style="left: @(seat.X - 395)px; top: @(seat.Y - 268)px">
+                @((seat.User.Name).Substring(0, 1).ToUpper())
+            </div>
+        }
+    }
+</div>

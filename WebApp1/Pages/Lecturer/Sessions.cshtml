@@ -1,0 +1,42 @@
+﻿@page
+@model WebApp1.Pages.SessionsModel
+@{
+    ViewData["Title"] = "Classes";
+}
+<h4>Your sessions - @Model.LecturerName</h4>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Session[0].Course)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Session[0].ClassRoom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Session[0].Time)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.LecturerSession)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClassRoom.Number)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Time)
+                </td>
+                <td>
+                    <a asp-page="ViewSession" asp-route-id="@item.ID">View</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

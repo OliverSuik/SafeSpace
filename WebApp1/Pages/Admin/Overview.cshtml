@@ -1,0 +1,172 @@
+﻿@page
+@model WebApp1.Pages.Admin.OverviewModel
+@{
+    ViewData["Title"] = "Overview";
+}
+<h4>Seating</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Seat[0].User)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Seat)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+<h4>Courses</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Course[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Course[0].Lecturer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Course[0].NrOfStudents)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Course[0].ID)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Course)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lecturer)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NrOfStudents)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ID)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+<h4>Users</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.User[0].Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.User)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+<h4>Classrooms</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Classroom[0].FileName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Classroom[0].Number)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Classroom[0].Seats[0])
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Classroom[0].isModel)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Classroom)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FileName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Number)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Seats)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.isModel)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+<h4>Sessions</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Session[0].Course)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Session[0].ClassRoom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Session[0].Time)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Session[0].ID)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Session)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClassRoom.Number)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Time)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ID)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

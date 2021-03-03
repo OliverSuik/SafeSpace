@@ -1,0 +1,18 @@
+﻿@page
+@model WebApp1.Pages.Admin.UploadPlanModel
+@{
+    ViewData["Title"] = "Upload plan";
+}
+<h4>Upload your floor plan</h4>
+<div>
+    <a asp-page="CreateSession">Back</a>
+</div>
+<div>
+    <form>
+        <div class="form-group">
+            <label for="planFile">Upload PDF-file</label>
+            <input type="file" class="form-control-file" id="planFile">
+        </div>
+        <button type="submit" class="btn btn-primary" asp-page="../CreateClassroom">Upload</button>
+    </form>
+</div>
