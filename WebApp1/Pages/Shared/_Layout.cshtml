@@ -41,6 +41,12 @@
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Student/SelectSession">Student</a>
                             </li>
                         }
+                        @if (User.IsInRole("Sysadmin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Sysadmin/ManageSystem">System administrator</a>
+                            </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

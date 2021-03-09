@@ -18,15 +18,14 @@ namespace WebApp1.Pages.Admin
         }
         [BindProperty]
         public Course Course { get; set; }
-
-        public IList<Seat> Seat { get; set; }
-        public IList<ClassRoom> Classroom { get; set; }
-
+        public IList<Seat> Seats { get; set; }
+        public IList<ClassRoom> Classrooms { get; set; }
+        public IList<Models.Lecturer> Lecturers { get; set; }
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            Seat = await _context.Seat.ToListAsync();
-            Classroom = await _context.ClassRoom.ToListAsync();
-
+            Seats = await _context.Seat.ToListAsync();
+            Classrooms = await _context.ClassRoom.ToListAsync();
+            Lecturers = await _context.Lecturer.ToListAsync();
             if (id == null)
             {
                 return NotFound();
@@ -55,7 +54,7 @@ namespace WebApp1.Pages.Admin
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("DeleteCourseList");
+            return RedirectToPage("CourseList");
         }
     }
 }

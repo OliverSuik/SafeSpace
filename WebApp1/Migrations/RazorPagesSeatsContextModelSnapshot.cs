@@ -19,6 +19,22 @@ namespace WebApp1.Migrations
                 .HasAnnotation("ProductVersion", "5.0.3")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("WebApp1.Models.Admin", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Admin");
+                });
+
             modelBuilder.Entity("WebApp1.Models.ClassRoom", b =>
                 {
                     b.Property<int>("ID")
@@ -30,6 +46,10 @@ namespace WebApp1.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Number")
@@ -50,10 +70,14 @@ namespace WebApp1.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Lecturer")
+                    b.Property<int?>("LecturerID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LecturerName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("NrOfStudents")
@@ -64,7 +88,58 @@ namespace WebApp1.Migrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("LecturerID");
+
                     b.ToTable("Course");
+                });
+
+            modelBuilder.Entity("WebApp1.Models.Lecturer", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Lecturer");
+                });
+
+            modelBuilder.Entity("WebApp1.Models.RegistrationToken", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ExpirationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("GenerateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Role")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Token")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("RegistrationToken");
                 });
 
             modelBuilder.Entity("WebApp1.Models.Seat", b =>
@@ -142,6 +217,15 @@ namespace WebApp1.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("User");
+                });
+
+            modelBuilder.Entity("WebApp1.Models.Course", b =>
+                {
+                    b.HasOne("WebApp1.Models.Lecturer", "Lecturer")
+                        .WithMany()
+                        .HasForeignKey("LecturerID");
+
+                    b.Navigation("Lecturer");
                 });
 
             modelBuilder.Entity("WebApp1.Models.Seat", b =>

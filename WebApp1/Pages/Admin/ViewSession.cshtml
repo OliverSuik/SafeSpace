@@ -4,7 +4,8 @@
     ViewData["Title"] = "View session";
     String _backGroundImage = "https://eu-central-1.linodeobjects.com/wemply/abb/public/55ef77ff25714b63844cf34590d835ac.4.svg";
 }
-<h4>@Model.SessionTitle</h4>
+<h3>@Model.SessionTitle</h3>
+<h5>@Model.SessionTime</h5>
 <div>
     <a asp-page="Sessions">Back to List</a>
 </div>
@@ -17,7 +18,7 @@
                 @Html.DisplayNameFor(model => model.OccupiedSeats[0].User)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OccupiedSeats[0].ID)
+                @Html.DisplayNameFor(model => model.OccupiedSeats[0].BookingTime)
             </th>
             <th></th>
         </tr>
@@ -30,7 +31,7 @@
                     @Html.DisplayFor(modelItem => item.User.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ID)
+                    @item.BookingTime.ToString("MM.dd HH:mm")
                 </td>
                 <td>
                     <a asp-page="RemoveStudent" asp-route-id="@item.User.ID">Remove student</a>

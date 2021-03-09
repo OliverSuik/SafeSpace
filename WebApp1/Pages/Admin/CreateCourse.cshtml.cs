@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using WebApp1.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebApp1.Pages.Admin
 {
@@ -16,13 +18,20 @@ namespace WebApp1.Pages.Admin
         {
             _context = context;
         }
-        public IActionResult OnGet()
-        {
-            return Page();
-        }
 
         [BindProperty]
         public Course Course { get; set; }
+        public IList<Models.Lecturer> Lecturers { get; set; }
+        public SelectList SelectLecturer { get; set; }
+        [BindProperty]
+        [Required(ErrorMessage = "Please select a lecturer.")]
+        public int SelectedLecturerId { get; set; }
+        public async Task OnGetAsync()
+        {
+            Lecturers = await _context.Lecturer.ToListAsync();
+            SelectLecturer = new SelectList(Lecturers, nameof(Models.Lecturer.ID), nameof(Models.Lecturer.Name));
+        }
+
 
         public async Task<IActionResult> OnPostAsync()
         {
@@ -30,6 +39,10 @@ namespace WebApp1.Pages.Admin
             {
                 return Page();
             }
+            Lecturers = await _context.Lecturer.ToListAsync();
+            var selectedLecturer = _context.Lecturer.Find(SelectedLecturerId);
+            Course.Lecturer = selectedLecturer;
+            Course.LecturerName = selectedLecturer.Name;
             Course.isModel = true;
             _context.Course.Add(Course);
             await _context.SaveChangesAsync();

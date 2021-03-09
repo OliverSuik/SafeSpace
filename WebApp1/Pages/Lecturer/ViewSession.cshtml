@@ -19,7 +19,7 @@
                 @Html.DisplayNameFor(model => model.OccupiedSeats[0].User)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OccupiedSeats[0].ID)
+                @Html.DisplayNameFor(model => model.OccupiedSeats[0].BookingTime)
             </th>
             <th></th>
         </tr>
@@ -32,7 +32,7 @@
                     @Html.DisplayFor(modelItem => item.User.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ID)
+                    @item.BookingTime.ToString("MM.dd HH:mm")
                 </td>
                 <td>
                     <a asp-page="RemoveStudent" asp-route-id="@item.User.ID">Remove student</a>

@@ -61,7 +61,7 @@ namespace WebApp1.Pages.Admin
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("DeleteClassroomList");
+            return RedirectToPage("ClassroomList");
         }
     }
 }

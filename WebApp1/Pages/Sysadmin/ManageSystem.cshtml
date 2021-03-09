@@ -1,0 +1,67 @@
+﻿@page
+@model WebApp1.Pages.Sysadmin.ManageSystemModel
+@{
+    ViewData["Title"] = "Manage";
+}
+<h2>Admins</h2>
+<div>
+    <a asp-page="AddAdmin">Add admin</a>
+</div>
+<h4>Registration form sent to</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RegistrationTokens[0].Email)
+            </th>
+            <th>
+                Link active
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.RegistrationTokens)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @if (item.ExpirationTime < DateTime.Now)
+                    {
+                        <p>False</p>
+                    }
+                    else
+                    {
+                        <p>True</p>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<h4>Admins</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UsersOfRole[0].Email)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.UsersOfRole)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td class="text-right">
+                    <a asp-page="RemoveAdmin">Remove</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

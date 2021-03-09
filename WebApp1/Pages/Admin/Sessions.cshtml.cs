@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using WebApp1.Models;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace WebApp1.Pages.Admin
 {
     public class SessionsModel : PageModel
@@ -21,6 +22,7 @@ namespace WebApp1.Pages.Admin
         public IList<ClassRoom> Classroom { get; set; }
         public IList<Session> Session { get; set; }
         public IList<User> User { get; set; }
+
 
         public async Task OnGetAsync()
         {

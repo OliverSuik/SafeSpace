@@ -23,6 +23,8 @@ namespace WebApp1.Pages.Admin
         [BindProperty]
         public string SessionTitle { get; set; }
         [BindProperty]
+        public string SessionTime { get; set; }
+        [BindProperty]
         public int NrOfSeats { get; set; }
         [BindProperty]
         public int Occupancy { get; set; }
@@ -42,7 +44,8 @@ namespace WebApp1.Pages.Admin
             }
             Session = await _context.Session.FirstOrDefaultAsync(m => m.ID == id);
             Seats = Session.ClassRoom.Seats;
-            SessionTitle = Session.Course.Name + " " + Session.Time.ToString() + " classroom " + Session.ClassRoom.Number;
+            SessionTitle = Session.Course.Name + ", classroom " + Session.ClassRoom.Number;
+            SessionTime = Session.Time.ToString("HH:mm dd.MM");
             NrOfSeats = Seats.Count;
             Occupancy = Seats.Where(s => s.User.Name != "-").Count();
             OccupiedSeats = Seats.Where(s => s.User.Name != "-").ToList();

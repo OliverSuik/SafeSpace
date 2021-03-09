@@ -40,7 +40,7 @@ namespace WebApp1.Pages.Lecturer
             }
             Session = await _context.Session.FirstOrDefaultAsync(m => m.ID == id);
             Seats = Session.ClassRoom.Seats;
-            SessionTitle = Session.Course.Name + " " + Session.Time.ToString() + " classroom " + Session.ClassRoom.Number;
+            SessionTitle = Session.Course.Name + " " + Session.Time.ToString("MM.dd HH:mm") + " classroom " + Session.ClassRoom.Number;
             NrOfSeats = Seats.Count;
             Occupancy = Seats.Where(s => s.User.Name != "-").Count();
             OccupiedSeats = Seats.Where(s => s.User.Name != "-").ToList();

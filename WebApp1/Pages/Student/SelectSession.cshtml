@@ -13,8 +13,13 @@
                 <select class="form-control m-0" asp-for="SelectedSessionId" asp-items="Model.SelectSession">
                     <option value="">Select a session</option>
                 </select>
+                <span asp-validation-for="SelectedSessionId" class="text-danger"></span>
             </div>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

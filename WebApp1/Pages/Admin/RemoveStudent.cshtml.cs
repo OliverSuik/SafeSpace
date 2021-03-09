@@ -29,7 +29,6 @@ namespace WebApp1.Pages.Admin
 
             User = await _context.User.FirstOrDefaultAsync(m => m.ID == id);
 
-
             if (User == null)
             {
                 return NotFound();

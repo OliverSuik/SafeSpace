@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using WebApp1.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebApp1.Pages.Admin
 {
@@ -18,28 +19,35 @@ namespace WebApp1.Pages.Admin
             _context = context;
         }
         [BindProperty]
+        [Required(ErrorMessage = "Please select time of the session.")]
+        [Display(Name = "time")]
         public DateTime DateTime { get; set; } = DateTime.Now;
         public IList<Course> Courses { get; set; }
         public IList<Seat> Seats { get; set; }
         public IList<ClassRoom> Classrooms { get; set; }
+        public IList<Models.Lecturer> Lecturers { get; set; }
         [BindProperty]
         public Session Session { get; set; } = new Session();
         public SelectList SelectCourse { get; set; }
 
         [BindProperty]
+        [Required(ErrorMessage = "Please select a course.")]
         public int SelectedCourseId { get; set; }
         public Course selectedCourse { get; set; }
         public SelectList SelectClassroom { get; set; }
         [BindProperty]
+        [Required(ErrorMessage = "Please select a classroom.")]
         public int SelectedClassroomId { get; set; }
         public ClassRoom selectedClassroom { get; set; }
         public string SessionName { get; set; }
         public async Task OnGetAsync()
         {
-            Courses = await _context.Course.AsNoTracking().ToListAsync();
+            Courses = await _context.Course.ToListAsync();
+            Lecturers = await _context.Lecturer.ToListAsync();
             Classrooms = await _context.ClassRoom.Where(s => s.isModel).ToListAsync();
-            SelectCourse = new SelectList(Courses, nameof(Course.ID), nameof(Course.Name), null, nameof(Course.Lecturer));
-            SelectClassroom = new SelectList(Classrooms, nameof(ClassRoom.ID), nameof(ClassRoom.Number));
+            SelectCourse = new SelectList(Courses, nameof(Course.ID), nameof(Course.Name), null, nameof(Course.LecturerName));
+            SelectClassroom = new SelectList(Classrooms, nameof(ClassRoom.ID), nameof(ClassRoom.Name));
+            Seats = await _context.Seat.ToListAsync();
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -48,8 +56,6 @@ namespace WebApp1.Pages.Admin
             var selectedCourse = _context.Course.Find(SelectedCourseId);
             ClassRoom selectedClassroom = _context.ClassRoom.Find(SelectedClassroomId);
             var copyClassroom = selectedClassroom.DeepCopy();
-
-            //System.Diagnostics.Debug.WriteLine(selectedClassroom.Seats.Count);
 
             List<Seat> newSeats = new List<Seat>();
             foreach (Seat seat in selectedClassroom.Seats)
@@ -71,17 +77,16 @@ namespace WebApp1.Pages.Admin
                 FileName = copyClassroom.FileName
             };
 
-            SessionName = selectedCourse.Name + " " + DateTime.ToString() + " classroom " + newClassroom.Number;
+            SessionName = DateTime.ToString("HH:mm MM.dd") + " " + selectedCourse.Name + " classroom " + newClassroom.Number;
+            Session.Course = selectedCourse;
+            Session.ClassRoom = newClassroom;
+            Session.Time = DateTime;
+            Session.Name = SessionName;
 
             if (!ModelState.IsValid)
             {
                 return Page();
             }
-
-            Session.Course = selectedCourse;
-            Session.ClassRoom = newClassroom;
-            Session.Time = DateTime;
-            Session.Name = SessionName;
 
             _context.Session.Add(Session);
             await _context.SaveChangesAsync();

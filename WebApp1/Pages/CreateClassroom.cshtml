@@ -22,7 +22,7 @@
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </div>
-        <component type="typeof(WebApp1.Components.Admin)" render-mode="Server" />
+        <component type="typeof(WebApp1.Components.Admin)" render-mode="Server"/>
         <input type="hidden" asp-for="Coords" id="Coords" />
     </form>
 </div>
@@ -34,4 +34,5 @@
             document.getElementById('Coords').value = Coords;
         }
     </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

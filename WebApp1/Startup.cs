@@ -57,12 +57,25 @@ namespace WebApp1
                 {
                     policy.RequireRole("Student");
                 });
+
+                ops.AddPolicy("Sysadmin", policy =>
+                {
+                    policy.RequireRole("Sysadmin");
+                });
             });
             services.AddRazorPages().AddRazorPagesOptions(options =>
             {
                 options.Conventions.AuthorizeFolder("/Admin", "Admin");
+                options.Conventions.AuthorizeFolder("/Sysadmin", "Sysadmin");
                 options.Conventions.AuthorizeFolder("/Lecturer", "Lecturer");
                 options.Conventions.AuthorizeFolder("/Student", "Student");
+                options.Conventions.AuthorizePage("/CreateClassroom", "Admin");
+            });
+            services.AddRazorPages().AddMvcOptions(options =>
+            {
+                options.MaxModelValidationErrors = 50;
+                options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(
+                    _ => "The field is required.");
             });
 
         }

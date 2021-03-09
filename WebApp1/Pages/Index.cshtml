@@ -22,7 +22,7 @@
                 <a class="btn btn-outline-primary mt-3" asp-area="" asp-page="/Lecturer/Sessions">View sessions</a>
             </li>
         }
-        else
+        else if (User.IsInRole("Student"))
         {
             <li class="nav-item">
                 <a class="btn btn-outline-primary mt-3" asp-area="" asp-page="/Student/SelectSession">Book a seat</a>

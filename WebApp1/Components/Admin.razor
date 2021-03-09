@@ -6,15 +6,15 @@
          @onclick="async (e) => {await UpdateUserName(); }" value="@CreatedSeats">
         <div class="d-flex">
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <button class="btn btn btn-outline-primary ml-auto p-2" @onclick="ChangeAddActive">ADD</button>
+                <button class="btn btn btn-outline-primary ml-auto p-2" @onclick="ChangeAddActive" >ADD</button>
                 <button class="btn btn btn-outline-primary ml-2" @onclick="ChangeSelectActive">SELECT</button>
             </div>
             <div class="pt-2 ml-1">
                 <label> Copy:</label>
                 <input type="checkbox" @bind="_copyOn">
             </div>
-            <button class="btn btn btn-outline-primary ml-auto p-2" @onclick="DeleteSelected">REMOVE</button>
-            <button class="btn btn btn-outline-primary ml-2" @onclick="Undo">UNDO</button>
+            <div type="button" class="btn btn btn-outline-primary ml-auto p-2" @onclick="DeleteSelected">REMOVE</div>
+            <div type="button" class="btn btn btn-outline-primary ml-2" @onclick="Undo">UNDO</div>
         </div>
         <p class="pt-2 mb-1">Number of seats: @(_seats.Count == 0 ? "-" : _seats.Count.ToString())</p>
         <div class="image-container" style="cursor: url(@_cursorImageAdd), auto;"
@@ -33,7 +33,7 @@
                      @onmouseover="ChangeMouseOver"
                      @onmouseout="ChangeMouseOut">
                     <div class="seatMenu" hidden="@_seats[i].MenuHidden">
-                        <button class="btn btn-primary" @onclick:stopPropagation="true" @onclick="RemoveSeat">REMOVE</button>
+                        <div type="button" class="btn btn-primary" @onclick:stopPropagation="true" @onclick="RemoveSeat">REMOVE</div>
                     </div>
                 </div>
             }

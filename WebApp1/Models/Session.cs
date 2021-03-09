@@ -10,6 +10,7 @@ namespace WebApp1.Models
     {
         public int ID { get; set; }
         public Course Course { get; set; }
+        [Display(Name = "Classroom")]
         public ClassRoom ClassRoom { get; set; }
         public DateTime Time { get; set; }
         public string Name { get; set; }

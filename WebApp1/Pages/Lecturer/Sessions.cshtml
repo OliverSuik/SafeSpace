@@ -1,7 +1,7 @@
 ﻿@page
 @model WebApp1.Pages.SessionsModel
 @{
-    ViewData["Title"] = "Classes";
+    ViewData["Title"] = "Sessions";
 }
 <h4>Your sessions - @Model.LecturerName</h4>
 
@@ -31,7 +31,7 @@
                     @Html.DisplayFor(modelItem => item.ClassRoom.Number)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Time)
+                    @item.Time.ToString("HH:mm MM.dd")
                 </td>
                 <td>
                     <a asp-page="ViewSession" asp-route-id="@item.ID">View</a>

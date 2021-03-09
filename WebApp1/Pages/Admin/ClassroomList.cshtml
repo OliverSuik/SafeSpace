@@ -1,5 +1,5 @@
 ﻿@page
-@model WebApp1.Pages.Admin.DeleteClassroomListModel
+@model WebApp1.Pages.Admin.ClassroomListModel
 @{
     ViewData["Title"] = "Classrooms";
 }
@@ -27,7 +27,8 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Seats.Count)
                 </td>
-                <td>
+                <td class="text-right">
+                    <a asp-page="ViewClassroom" asp-route-id="@item.ID">View</a> |
                     <a asp-page="DeleteClassroom" asp-route-id="@item.ID">Delete</a>
                 </td>
             </tr>

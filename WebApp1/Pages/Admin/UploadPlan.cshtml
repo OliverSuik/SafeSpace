@@ -11,7 +11,8 @@
     <form>
         <div class="form-group">
             <label for="planFile">Upload PDF-file</label>
-            <input type="file" class="form-control-file" id="planFile">
+            <input type="file" value="Tere" class="form-control-file" id="planFile" asp-for="Upload"
+                   accept="application/pdf">
         </div>
         <button type="submit" class="btn btn-primary" asp-page="../CreateClassroom">Upload</button>
     </form>

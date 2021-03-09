@@ -78,6 +78,7 @@ namespace WebApp1.Pages.Student
             {
                 ConfirmedSeat = confirmedSeat;
                 ConfirmedSeat.User.Name = "-";
+                ConfirmedSeat.BookingTime = DateTime.MinValue;
                 _context.Seat.Attach(ConfirmedSeat).State = EntityState.Modified;
             }
             if (SelectedSeat.ID == -1)
@@ -96,6 +97,7 @@ namespace WebApp1.Pages.Student
             {
                 ConfirmedSeat = await _context.Seat.FirstOrDefaultAsync(m => m.ID == SelectedSeat.ID);
                 ConfirmedSeat.User.Name = User.Identity.Name;
+                ConfirmedSeat.BookingTime = DateTime.Now;
                 _context.Seat.Attach(ConfirmedSeat).State = EntityState.Modified;
                 try
                 {

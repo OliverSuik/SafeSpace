@@ -80,17 +80,8 @@ namespace WebApp1.Areas.Identity.Pages.Account
                 await CreateRole();
                 var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
-                if (user.Email.StartsWith("suik"))
-                {
-                    var roleresult = _userManager.AddToRoleAsync(user, "Admin");
-                } else if (user.Email.StartsWith("oliver"))
-                {
-                    var roleresult = _userManager.AddToRoleAsync(user, "Lecturer");
-                } else
-                {
-                    var roleresult = _userManager.AddToRoleAsync(user, "Student");
-                }
-                
+                await _userManager.AddToRoleAsync(user, "Student");
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
@@ -127,26 +118,6 @@ namespace WebApp1.Areas.Identity.Pages.Account
         }
         public async Task CreateRole()
         {
-            bool admin = await _roleManager.RoleExistsAsync("Admin");
-            if (!admin)
-            {
-                // first we create Admin role 
-                var role = new IdentityRole
-                {
-                    Name = "Admin"
-                };
-                await _roleManager.CreateAsync(role);
-            }
-            bool lecturer = await _roleManager.RoleExistsAsync("Lecturer");
-            if (!lecturer)
-            {
-                // first we create Admin role 
-                var role = new IdentityRole
-                {
-                    Name = "Lecturer"
-                };
-                await _roleManager.CreateAsync(role);
-            }
             bool student = await _roleManager.RoleExistsAsync("Student");
             if (!student)
             {

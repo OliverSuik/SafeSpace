@@ -1,0 +1,68 @@
+﻿@page
+@model WebApp1.Pages.Admin.ManageLecturersModel
+@{
+    ViewData["Title"] = "Lecturers";
+}
+<h2>Lecturers</h2>
+<div>
+    <a asp-page="AddLecturer">Add lecturer</a>
+</div>
+<a asp-page="Sessions">Back</a>
+<h4>Registration form sent to</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RegistrationTokens[0].Email)
+            </th>
+            <th>
+                Link active
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.RegistrationTokens)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @if (item.ExpirationTime < DateTime.Now)
+                    {
+                        <p>False</p>
+                    }
+                    else
+                    {
+                        <p>True</p>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<h4>Lecturers</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UsersOfRole[0].Email)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.UsersOfRole)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td class="text-right">
+                    <a asp-page="RemoveLecturer">Remove</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

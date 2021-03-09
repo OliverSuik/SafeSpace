@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using WebApp1.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebApp1.Pages
 {
@@ -26,6 +27,7 @@ namespace WebApp1.Pages
         [BindProperty]
         public string Texttest { get; set; }
         [BindProperty]
+        [Required(ErrorMessage = "Please select a session.")]
         public int SelectedSessionId { get; set; }
         public Course Course { get; set; }
         public async Task OnGetAsync()
@@ -37,7 +39,7 @@ namespace WebApp1.Pages
             Users = await _context.User.ToListAsync();
             SelectSession = new SelectList(Sessions, nameof(Session.ID), nameof(Session.Name));
         }
-        public async Task<IActionResult> OnPostAsync()
+        public IActionResult OnPost()
         {
             return RedirectToPage("PickSeats", new { id = SelectedSessionId });
         }

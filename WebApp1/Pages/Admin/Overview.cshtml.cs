@@ -16,19 +16,21 @@ namespace WebApp1.Pages.Admin
         {
             _context = context;
         }
-        public IList<Seat> Seat { get; set; }
-        public IList<User> User { get; set; }
-        public IList<Course> Course { get; set; }
-        public IList<ClassRoom> Classroom { get; set; }
-        public IList<Session> Session { get; set; }
+        public IList<Seat> Seats { get; set; }
+        public IList<User> Users { get; set; }
+        public IList<Course> Courses { get; set; }
+        public IList<ClassRoom> Classrooms { get; set; }
+        public IList<Session> Sessions { get; set; }
+        public IList<Models.Lecturer> Lecturers { get; set; }
 
         public async Task OnGetAsync()
         {
-            Seat = await _context.Seat.ToListAsync();
-            User = await _context.User.ToListAsync();
-            Course = await _context.Course.ToListAsync();
-            Classroom = await _context.ClassRoom.ToListAsync();
-            Session = await _context.Session.ToListAsync();
+            Seats = await _context.Seat.ToListAsync();
+            Users = await _context.User.ToListAsync();
+            Courses = await _context.Course.ToListAsync();
+            Classrooms = await _context.ClassRoom.ToListAsync();
+            Sessions = await _context.Session.ToListAsync();
+            Lecturers = await _context.Lecturer.ToListAsync();
         }
     }
 }

@@ -9,10 +9,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WebApp1.Pages.Admin
 {
-    public class DeleteClassroomListModel : PageModel
+    public class ClassroomListModel : PageModel
     {
         private readonly Data.RazorPagesSeatsContext _context;
-        public DeleteClassroomListModel(Data.RazorPagesSeatsContext context)
+        public ClassroomListModel(Data.RazorPagesSeatsContext context)
         {
             _context = context;
         }
