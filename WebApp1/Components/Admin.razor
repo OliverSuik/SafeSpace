@@ -6,14 +6,19 @@
          @onclick="async (e) => {await UpdateUserName(); }" value="@CreatedSeats">
         <div class="d-flex">
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <button class="btn btn btn-outline-primary ml-auto p-2" @onclick="ChangeAddActive" >ADD</button>
-                <button class="btn btn btn-outline-primary ml-2" @onclick="ChangeSelectActive">SELECT</button>
+                <label class="btn btn-outline-primary" @onclick="ChangeAddActive">
+                    <input type="radio" name="options" id="option2" autocomplete="off" checked>ADD
+                </label>
+                <label class="btn btn-outline-primary ml-2" @onclick="ChangeSelectActive">
+                    <input type="radio" name="options" id="option3" autocomplete="off">SELECT
+                </label>
             </div>
             <div class="pt-2 ml-1">
-                <label> Copy:</label>
-                <input type="checkbox" @bind="_copyOn">
+
             </div>
-            <div type="button" class="btn btn btn-outline-primary ml-auto p-2" @onclick="DeleteSelected">REMOVE</div>
+            <input type="checkbox" class="btn-check" id="btn-check-outlined" autocomplete="off" @bind="_copyOn" hidden>
+            <label for="btn-check-outlined" class="btn btn btn-outline-primary ml-auto p-2 m-0">COPY</label>
+            <div type="button" class="btn btn btn-outline-primary ml-2 p-2" @onclick="DeleteSelected">REMOVE</div>
             <div type="button" class="btn btn btn-outline-primary ml-2" @onclick="Undo">UNDO</div>
         </div>
         <p class="pt-2 mb-1">Number of seats: @(_seats.Count == 0 ? "-" : _seats.Count.ToString())</p>

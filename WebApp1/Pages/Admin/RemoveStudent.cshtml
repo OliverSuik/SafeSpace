@@ -11,12 +11,12 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            Name: @Html.DisplayFor(model => model.User.Name)
+            Name: @Html.DisplayFor(model => model.Student.Name)
         </dt>
     </dl>
 
     <form method="post">
-        <input type="hidden" asp-for="User.ID" />
+        <input type="hidden" asp-for="Student.ID" />
         <input type="submit" value="Remove" class="btn btn-danger" /> |
         <a asp-page="Sessions">Back to List</a>
     </form>

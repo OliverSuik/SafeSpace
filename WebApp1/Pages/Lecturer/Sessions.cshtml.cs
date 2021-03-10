@@ -19,18 +19,20 @@ namespace WebApp1.Pages
         {
             _context = context;
         }
-        [BindProperty]
-        public string LecturerName { get; set; } = User.Identity.Name;
-        public IList<Course> Course { get; set; }
-        public IList<ClassRoom> Classroom { get; set; }
-        public IList<Session> Session { get; set; }
-        public IList<Session> LecturerSession { get; set; }
+        public string LecturerName { get; set; }
+        public IList<Course> Courses { get; set; }
+        public IList<ClassRoom> Classrooms { get; set; }
+        public IList<Session> Sessions { get; set; }
+        public IList<Session> LecturerSessions { get; set; }
         public async Task OnGetAsync()
         {
-            Course = await _context.Course.ToListAsync();
-            Classroom = await _context.ClassRoom.ToListAsync();
-            Session = await _context.Session.ToListAsync();
-            LecturerSession = Session.Where(s => s.Course.Lecturer.Name == LecturerName).ToList();
+            var userEmail = User.Identity.Name;
+            var lecturer = await _context.Lecturer.FirstOrDefaultAsync(l => l.Email == userEmail);
+            LecturerName = lecturer.Name;
+            Courses = await _context.Course.Where(c => !c.isModel).ToListAsync();
+            Classrooms = await _context.ClassRoom.ToListAsync();
+            Sessions = await _context.Session.ToListAsync();
+            LecturerSessions = Sessions.Where(s => s.Course.Lecturer.Email == userEmail).ToList();
         }
     }
 }

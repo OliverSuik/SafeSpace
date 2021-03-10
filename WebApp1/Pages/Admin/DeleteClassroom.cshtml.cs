@@ -18,12 +18,12 @@ namespace WebApp1.Pages.Admin
         }
         [BindProperty]
         public ClassRoom Classroom { get; set; }
-        public IList<Seat> Seat { get; set; }
-        public IList<User> User { get; set; }
+        public IList<Seat> Seats { get; set; }
+        public IList<Models.Student> Students { get; set; }
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            Seat = await _context.Seat.ToListAsync();
-            User = await _context.User.ToListAsync();
+            Seats = await _context.Seat.ToListAsync();
+            Students = await _context.Student.ToListAsync();
 
             if (id == null)
             {
@@ -46,15 +46,15 @@ namespace WebApp1.Pages.Admin
                 return NotFound();
             }
 
-            Seat = await _context.Seat.ToListAsync();
-            User = await _context.User.ToListAsync();
+            Seats = await _context.Seat.ToListAsync();
+            Students = await _context.Student.ToListAsync();
             Classroom = await _context.ClassRoom.FindAsync(id);
 
             if (Classroom != null)
             {
                 foreach (Seat seat in Classroom.Seats)
                 {
-                    _context.User.Remove(seat.User);
+                    _context.Student.Remove(seat.Student);
                     _context.Seat.Remove(seat);
                 }
                 _context.ClassRoom.Remove(Classroom);

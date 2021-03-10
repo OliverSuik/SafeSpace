@@ -16,7 +16,7 @@ namespace WebApp1.Pages.Lecturer
         {
             _context = context;
         }
-        [BindProperty]
+        public string SessionTime { get; set; }
         public string SessionTitle { get; set; }
         public int Occupancy { get; set; }
         public int NrOfSeats { get; set; }
@@ -24,7 +24,7 @@ namespace WebApp1.Pages.Lecturer
         public IList<Seat> Seat { get; set; }
         public IList<Course> Course { get; set; }
         public IList<ClassRoom> Classroom { get; set; }
-        public IList<User> Users { get; set; }
+        public IList<Models.Student> Students { get; set; }
         public IList<Seat> OccupiedSeats { get; set; }
         public IList<Seat> Seats { get; set; }
 
@@ -33,17 +33,18 @@ namespace WebApp1.Pages.Lecturer
             Seat = await _context.Seat.ToListAsync();
             Course = await _context.Course.ToListAsync();
             Classroom = await _context.ClassRoom.ToListAsync();
-            Users = await _context.User.ToListAsync();
+            Students = await _context.Student.ToListAsync();
             if (id == null)
             {
                 return NotFound();
             }
             Session = await _context.Session.FirstOrDefaultAsync(m => m.ID == id);
             Seats = Session.ClassRoom.Seats;
-            SessionTitle = Session.Course.Name + " " + Session.Time.ToString("MM.dd HH:mm") + " classroom " + Session.ClassRoom.Number;
+            SessionTitle = Session.Course.Name + ", classroom " + Session.ClassRoom.Number;
+            SessionTime = Session.Time.ToString("HH:mm dd.MM");
             NrOfSeats = Seats.Count;
-            Occupancy = Seats.Where(s => s.User.Name != "-").Count();
-            OccupiedSeats = Seats.Where(s => s.User.Name != "-").ToList();
+            Occupancy = Seats.Where(s => s.Student.Name != "-").Count();
+            OccupiedSeats = Seats.Where(s => s.Student.Name != "-").ToList();
             if (Session == null)
             {
                 return NotFound();

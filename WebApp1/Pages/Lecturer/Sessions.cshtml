@@ -9,19 +9,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Session[0].Course)
+                @Html.DisplayNameFor(model => model.Sessions[0].Course)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Session[0].ClassRoom)
+                @Html.DisplayNameFor(model => model.Sessions[0].ClassRoom)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Session[0].Time)
+                @Html.DisplayNameFor(model => model.Sessions[0].Time)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.LecturerSession)
+        @foreach (var item in Model.LecturerSessions)
         {
             <tr>
                 <td>
@@ -31,7 +31,7 @@
                     @Html.DisplayFor(modelItem => item.ClassRoom.Number)
                 </td>
                 <td>
-                    @item.Time.ToString("HH:mm MM.dd")
+                    @item.Time.ToString("HH:mm dd.MM")
                 </td>
                 <td>
                     <a asp-page="ViewSession" asp-route-id="@item.ID">View</a>

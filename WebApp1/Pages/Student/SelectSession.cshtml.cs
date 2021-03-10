@@ -22,21 +22,18 @@ namespace WebApp1.Pages
         public IList<ClassRoom> Classrooms { get; set; }
         public IList<Session> Sessions { get; set; }
         public IList<Seat> Seats { get; set; }
-        public IList<User> Users { get; set; }
+        public IList<Models.Student> Students { get; set; }
         public SelectList SelectSession { get; set; }
-        [BindProperty]
-        public string Texttest { get; set; }
         [BindProperty]
         [Required(ErrorMessage = "Please select a session.")]
         public int SelectedSessionId { get; set; }
-        public Course Course { get; set; }
         public async Task OnGetAsync()
         {
             Courses = await _context.Course.ToListAsync();
             Classrooms = await _context.ClassRoom.ToListAsync();
-            Sessions = await _context.Session.ToListAsync();
+            Sessions = await _context.Session.Where(s => s.Time > DateTime.Now).ToListAsync();
             Seats = await _context.Seat.ToListAsync();
-            Users = await _context.User.ToListAsync();
+            Students = await _context.Student.ToListAsync();
             SelectSession = new SelectList(Sessions, nameof(Session.ID), nameof(Session.Name));
         }
         public IActionResult OnPost()

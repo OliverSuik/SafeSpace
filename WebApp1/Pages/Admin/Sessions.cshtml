@@ -15,19 +15,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Session[0].Course)
+                @Html.DisplayNameFor(model => model.UpcomingSessions[0].Course)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Session[0].ClassRoom)
+                @Html.DisplayNameFor(model => model.UpcomingSessions[0].ClassRoom)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Session[0].Time)
+                @Html.DisplayNameFor(model => model.UpcomingSessions[0].Time)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Session)
+        @foreach (var item in Model.UpcomingSessions)
         {
             <tr>
                 <td>
@@ -37,7 +37,7 @@
                     @Html.DisplayFor(modelItem => item.ClassRoom.Number)
                 </td>
                 <td>
-                    @item.Time.ToString("HH:mm MM.dd")
+                    @item.Time.ToString("HH:mm dd.MM")
                 </td>
                 <td class="text-right">
                     <a asp-page="ViewSession" asp-route-id="@item.ID">Details</a> |
@@ -52,19 +52,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Session[0].Course)
+                @Html.DisplayNameFor(model => model.PastSessions[0].Course)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Session[0].ClassRoom)
+                @Html.DisplayNameFor(model => model.PastSessions[0].ClassRoom)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Session[0].Time)
+                @Html.DisplayNameFor(model => model.PastSessions[0].Time)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Session)
+        @foreach (var item in Model.PastSessions)
         {
             <tr>
                 <td>
@@ -74,11 +74,41 @@
                     @Html.DisplayFor(modelItem => item.ClassRoom.Number)
                 </td>
                 <td>
-                    @item.Time.ToString("HH:mm MM.dd")
+                    @item.Time.ToString("HH:mm dd.MM")
                 </td>
                 <td class="text-right">
                     <a asp-page="ViewSession" asp-route-id="@item.ID">Details</a> |
                     <a asp-page="DeleteSession" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<h4>Cases</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Cases[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cases[0].Description)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Cases)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td class="text-right">
+                    <a asp-page="ViewCase" asp-route-id="@item.ID">View</a>
                 </td>
             </tr>
         }

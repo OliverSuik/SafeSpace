@@ -9,7 +9,7 @@ namespace WebApp1.Models
     public class Seat
     {
         public int ID { get; set; }
-        public User User { get; set; }
+        public Student Student { get; set; }
 
         [Display(Name = "Booking time")]
         public DateTime BookingTime { get; set; }

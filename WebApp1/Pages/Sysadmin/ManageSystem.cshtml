@@ -3,11 +3,25 @@
 @{
     ViewData["Title"] = "Manage";
 }
+<h2>Configuration</h2>
+<div>
+    <a asp-page="ChangeConfig" asp-route-id="1">Edit configuration</a>
+</div>
+<div>
+    <p>
+        Token expire time (days): <b>@Model.GlobalVariables.TokenExpirationDays days</b>
+    </p>
+    <p>
+        Email regex: <b>@Model.GlobalVariables.EmailSuffix</b>
+    </p>
+</div>
+<hr />
+
 <h2>Admins</h2>
 <div>
     <a asp-page="AddAdmin">Add admin</a>
 </div>
-<h4>Registration form sent to</h4>
+<h6>Link sent to</h6>
 <table class="table">
     <thead>
         <tr>
@@ -15,7 +29,7 @@
                 @Html.DisplayNameFor(model => model.RegistrationTokens[0].Email)
             </th>
             <th>
-                Link active
+                Token active
             </th>
             <th></th>
         </tr>
@@ -37,11 +51,15 @@
                         <p>True</p>
                     }
                 </td>
+                <td class="text-right">
+                    <a asp-page="ResendForm" asp-route-id="@item.ID">Resend</a> |
+                    <a asp-page="RemoveForm" asp-route-id="@item.ID">Remove</a>
+                </td>
             </tr>
         }
     </tbody>
 </table>
-<h4>Admins</h4>
+<h6>Confirmed admins</h6>
 <table class="table">
     <thead>
         <tr>
@@ -59,9 +77,10 @@
                     @Html.DisplayFor(modelItem => item.Email)
                 </td>
                 <td class="text-right">
-                    <a asp-page="RemoveAdmin">Remove</a>
+                    <a asp-page="RemoveAdmin" asp-route-id="@item.Id">Remove</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+

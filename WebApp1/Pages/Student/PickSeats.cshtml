@@ -12,12 +12,14 @@
     <div class="row m-0">
         @if (Model.SelectedSeat == null)
         {
+            <input type="hidden" asp-for="Session.ID" />
             <button type="button" class="btn btn-outline-primary" disabled>
                 Confirm
             </button>
         }
         else
         {
+            <input type="hidden" asp-for="Session.ID" />
             <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal">
                 Confirm
             </button>
@@ -107,18 +109,18 @@
                 { "seatId", seat.ID.ToString() },
                 { "id", Model.SessNr.ToString() }
                 };
-            @if (seat.User.Name == "-")
+            @if (seat.Student.Name == "-")
             {
                 <a asp-page="PickSeats" asp-all-route-data="routeValues" class="@((seat.ID == Model.SelectedSeatId ? "square-selected" : "square" ))"
                    id="square-@seat.ID" style="left: @(seat.X - 395)px; top: @(seat.Y - 268)px">
-                    @((seat.User.Name).Substring(0, 1).ToUpper())
+                    @((seat.Student.Name).Substring(0, 1).ToUpper())
                 </a>
             }
             else
             {
-                <div class="@((seat.User.Name == User.Identity.Name ? "square-confirmed-user" : "square-confirmed" ))"
+                <div class="@((seat.Student.Name == User.Identity.Name ? "square-confirmed-user" : "square-confirmed" ))"
                      id="square-@seat.ID" style="left: @(seat.X - 395)px; top: @(seat.Y - 268)px">
-                    @((seat.User.Name).Substring(0, 1).ToUpper())
+                    @((seat.Student.Name).Substring(0, 1).ToUpper())
                 </div>
             }
 

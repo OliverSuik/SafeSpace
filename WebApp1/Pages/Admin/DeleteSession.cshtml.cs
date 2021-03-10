@@ -21,7 +21,7 @@ namespace WebApp1.Pages.Admin
         public IList<Seat> Seat { get; set; }
         public IList<Seat> Seats { get; set; }
         public IList<Course> Course { get; set; }
-        public IList<User> User { get; set; }
+        public IList<Models.Student> Students { get; set; }
         public IList<ClassRoom> Classroom { get; set; }
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -47,7 +47,7 @@ namespace WebApp1.Pages.Admin
             Seat = await _context.Seat.ToListAsync();
             Course = await _context.Course.ToListAsync();
             Classroom = await _context.ClassRoom.ToListAsync();
-            User = await _context.User.ToListAsync();
+            Students = await _context.Student.ToListAsync();
 
             if (id == null)
             {
@@ -61,10 +61,11 @@ namespace WebApp1.Pages.Admin
             {
                 foreach (Seat seat in Session.ClassRoom.Seats)
                 {
-                    _context.User.Remove(seat.User);
+                    _context.Student.Remove(seat.Student);
                     _context.Seat.Remove(seat);
                 }
                 _context.ClassRoom.Remove(Session.ClassRoom);
+                _context.Course.Remove(Session.Course);
                 _context.Session.Remove(Session);
                 await _context.SaveChangesAsync();
             }

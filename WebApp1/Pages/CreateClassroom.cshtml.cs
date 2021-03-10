@@ -17,7 +17,7 @@ namespace WebApp1.Pages
         {
             _context = context;
         }
-        public IActionResult OnGet(string? plan)
+        public IActionResult OnGet(string plan)
         {
             return Page();
         }
@@ -54,7 +54,7 @@ namespace WebApp1.Pages
                 for (int i = 0; i < xlist.Count; i++)
                 {
 
-                    SeatList.Add(new Seat { X = xlist[i], Y = ylist[i], User = new User { isModel = true } });
+                    SeatList.Add(new Seat { X = xlist[i], Y = ylist[i], Student = new Models.Student { isModel = true } });
                 }
                 Classroom.Name = Classroom.Number + " - " + SeatList.Count + " seats";
                 Classroom.Seats = SeatList;

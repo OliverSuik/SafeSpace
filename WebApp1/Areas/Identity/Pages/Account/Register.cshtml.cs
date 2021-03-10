@@ -48,7 +48,9 @@ namespace WebApp1.Areas.Identity.Pages.Account
 
         public class InputModel
         {
+            
             [Required]
+            [RegularExpression(@"\w*@ut.ee\b", ErrorMessage = "University email address has to be used.")]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }

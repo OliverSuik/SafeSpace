@@ -38,13 +38,15 @@ namespace WebApp1.Pages.Sysadmin
             {
                 return Page();
             }
-
-            RegistrationToken regToken = new RegistrationToken();
+            var expirationTime = _context.GlobalVariables.First().TokenExpirationDays;
             DateTime d_time = DateTime.Now;
-            regToken.GenerateTime = d_time;
-            regToken.ExpirationTime = d_time.AddDays(2);
-            regToken.Email = Admin.Email;
-            regToken.Role = "Admin";
+            RegistrationToken regToken = new RegistrationToken
+            {
+                GenerateTime = d_time,
+                ExpirationTime = d_time.AddDays(expirationTime),
+                Email = Admin.Email,
+                Role = "Admin"
+            };
             _context.RegistrationToken.Add(regToken);
             await _context.SaveChangesAsync();
 

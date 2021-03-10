@@ -8,7 +8,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Seats[0].User)
+                @Html.DisplayNameFor(model => model.Seats[0].Student)
             </th>
             <th></th>
         </tr>
@@ -18,7 +18,7 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.User)
+                    @Html.DisplayFor(modelItem => item.Student)
                 </td>
             </tr>
         }
@@ -37,7 +37,7 @@
                 @Html.DisplayNameFor(model => model.Courses[0].Lecturer)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Courses[0].NrOfStudents)
+                @Html.DisplayNameFor(model => model.Courses[0].isModel)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Courses[0].ID)
@@ -53,10 +53,10 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Lecturer)
+                    @Html.DisplayFor(modelItem => item.Lecturer.Email)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.NrOfStudents)
+                    @Html.DisplayFor(modelItem => item.isModel)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ID)
@@ -72,13 +72,13 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Users[0].Name)
+                @Html.DisplayNameFor(model => model.Students[0].Name)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Users)
+        @foreach (var item in Model.Students)
         {
             <tr>
                 <td>

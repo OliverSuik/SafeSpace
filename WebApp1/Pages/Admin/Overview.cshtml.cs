@@ -17,7 +17,7 @@ namespace WebApp1.Pages.Admin
             _context = context;
         }
         public IList<Seat> Seats { get; set; }
-        public IList<User> Users { get; set; }
+        public IList<Models.Student> Students { get; set; }
         public IList<Course> Courses { get; set; }
         public IList<ClassRoom> Classrooms { get; set; }
         public IList<Session> Sessions { get; set; }
@@ -26,7 +26,7 @@ namespace WebApp1.Pages.Admin
         public async Task OnGetAsync()
         {
             Seats = await _context.Seat.ToListAsync();
-            Users = await _context.User.ToListAsync();
+            Students = await _context.Student.ToListAsync();
             Courses = await _context.Course.ToListAsync();
             Classrooms = await _context.ClassRoom.ToListAsync();
             Sessions = await _context.Session.ToListAsync();

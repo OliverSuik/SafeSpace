@@ -16,7 +16,7 @@ namespace WebApp1.Pages.Student
             _context = context;
         }
         public IList<Seat> Seat { get; set; }
-        public IList<User> Users { get; set; }
+        public IList<Models.Student> Students { get; set; }
         public IList<Course> Course { get; set; }
         public IList<ClassRoom> Classroom { get; set; }
         public Session Session { get; set; }
@@ -41,15 +41,16 @@ namespace WebApp1.Pages.Student
             Seat = await _context.Seat.ToListAsync();
             Course = await _context.Course.ToListAsync();
             Classroom = await _context.ClassRoom.ToListAsync();
-            Users = await _context.User.ToListAsync();
+            Students = await _context.Student.ToListAsync();
+            Session = await _context.Session.FirstOrDefaultAsync(m => m.ID == id);
 
-            var confirmedSeat = await _context.Seat.FirstOrDefaultAsync(m => m.User.Name == Name);
+            var confirmedSeat = await _context.Seat.FirstOrDefaultAsync(m => m.Student.Name == Name &&
+            Session.ClassRoom.Seats.Contains(m));
             if (confirmedSeat != null)
             {
                 ConfirmedSeat = confirmedSeat;
             }
 
-            Session = await _context.Session.FirstOrDefaultAsync(m => m.ID == id);
             SessNr = id;
             SelectedSeatId = seatId;
             SessionTitle = Session.Course.Name + " " + Session.Time.ToShortDateString() + " " + Session.Time.ToShortTimeString() + " classroom " + Session.ClassRoom.Number;
@@ -57,7 +58,8 @@ namespace WebApp1.Pages.Student
             Seats = Session.ClassRoom.Seats;
             if (seatId != null)
             {
-                SelectedSeat = await _context.Seat.FirstOrDefaultAsync(m => m.ID == SelectedSeatId);
+                SelectedSeat = await _context.Seat.FirstOrDefaultAsync(m => m.ID == SelectedSeatId &&
+                               Session.ClassRoom.Seats.Contains(m));
             }
 
             if (Session == null)
@@ -66,18 +68,25 @@ namespace WebApp1.Pages.Student
             }
             return Page();
         }
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int? id)
         {
             Seat = await _context.Seat.ToListAsync();
             Course = await _context.Course.ToListAsync();
             Classroom = await _context.ClassRoom.ToListAsync();
-            Users = await _context.User.ToListAsync();
+            Students = await _context.Student.ToListAsync();
+            Session = await _context.Session.FirstOrDefaultAsync(m => m.ID == id);
 
-            var confirmedSeat = await _context.Seat.FirstOrDefaultAsync(m => m.User.Name == User.Identity.Name);
+            if (Session == null)
+            {
+                return NotFound();
+            }
+
+            var confirmedSeat = await _context.Seat.FirstOrDefaultAsync(m => m.Student.Name == User.Identity.Name &&
+                                Session.ClassRoom.Seats.Contains(m));
             if (confirmedSeat != null)
             {
                 ConfirmedSeat = confirmedSeat;
-                ConfirmedSeat.User.Name = "-";
+                ConfirmedSeat.Student.Name = "-";
                 ConfirmedSeat.BookingTime = DateTime.MinValue;
                 _context.Seat.Attach(ConfirmedSeat).State = EntityState.Modified;
             }
@@ -95,8 +104,9 @@ namespace WebApp1.Pages.Student
             }
             else
             {
-                ConfirmedSeat = await _context.Seat.FirstOrDefaultAsync(m => m.ID == SelectedSeat.ID);
-                ConfirmedSeat.User.Name = User.Identity.Name;
+                ConfirmedSeat = await _context.Seat.FirstOrDefaultAsync(m => m.ID == SelectedSeat.ID &&
+                                Session.ClassRoom.Seats.Contains(m));
+                ConfirmedSeat.Student.Name = User.Identity.Name;
                 ConfirmedSeat.BookingTime = DateTime.Now;
                 _context.Seat.Attach(ConfirmedSeat).State = EntityState.Modified;
                 try

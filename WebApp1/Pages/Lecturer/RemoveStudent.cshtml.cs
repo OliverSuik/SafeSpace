@@ -17,7 +17,7 @@ namespace WebApp1.Pages.Lecturer
             _context = context;
         }
         [BindProperty]
-        public User User { get; set; }
+        public Models.Student Student { get; set; }
         public Seat Seat { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -27,10 +27,10 @@ namespace WebApp1.Pages.Lecturer
                 return NotFound();
             }
 
-            User = await _context.User.FirstOrDefaultAsync(m => m.ID == id);
+            Student = await _context.Student.FirstOrDefaultAsync(m => m.ID == id);
 
 
-            if (User == null)
+            if (Student == null)
             {
                 return NotFound();
             }
@@ -43,13 +43,13 @@ namespace WebApp1.Pages.Lecturer
                 return NotFound();
             }
 
-            User = await _context.User.FirstOrDefaultAsync(m => m.ID == id);
-            Seat = await _context.Seat.FirstOrDefaultAsync(s => s.User.ID == id);
-            Seat.User = new User();
-            if (User != null)
+            Student = await _context.Student.FirstOrDefaultAsync(m => m.ID == id);
+            Seat = await _context.Seat.FirstOrDefaultAsync(s => s.Student.ID == id);
+            Seat.Student = new Models.Student();
+            if (Student != null)
             {
                 _context.Attach(Seat).State = EntityState.Modified;
-                _context.User.Remove(User);
+                _context.Student.Remove(Student);
                 await _context.SaveChangesAsync();
             }
 

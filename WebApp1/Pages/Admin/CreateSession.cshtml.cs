@@ -33,36 +33,36 @@ namespace WebApp1.Pages.Admin
         [BindProperty]
         [Required(ErrorMessage = "Please select a course.")]
         public int SelectedCourseId { get; set; }
-        public Course selectedCourse { get; set; }
         public SelectList SelectClassroom { get; set; }
         [BindProperty]
         [Required(ErrorMessage = "Please select a classroom.")]
         public int SelectedClassroomId { get; set; }
-        public ClassRoom selectedClassroom { get; set; }
         public string SessionName { get; set; }
         public async Task OnGetAsync()
         {
-            Courses = await _context.Course.ToListAsync();
-            Lecturers = await _context.Lecturer.ToListAsync();
+            Courses = await _context.Course.Where(s => s.isModel).ToListAsync();
             Classrooms = await _context.ClassRoom.Where(s => s.isModel).ToListAsync();
             SelectCourse = new SelectList(Courses, nameof(Course.ID), nameof(Course.Name), null, nameof(Course.LecturerName));
             SelectClassroom = new SelectList(Classrooms, nameof(ClassRoom.ID), nameof(ClassRoom.Name));
+            Lecturers = await _context.Lecturer.ToListAsync();
             Seats = await _context.Seat.ToListAsync();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
             Seats = await _context.Seat.ToListAsync();
-            var selectedCourse = _context.Course.Find(SelectedCourseId);
+            Lecturers = await _context.Lecturer.ToListAsync();
+
+            Course selectedCourse = _context.Course.Find(SelectedCourseId);
             ClassRoom selectedClassroom = _context.ClassRoom.Find(SelectedClassroomId);
             var copyClassroom = selectedClassroom.DeepCopy();
-
+            var copyCourse = selectedCourse.DeepCopy();
             List<Seat> newSeats = new List<Seat>();
             foreach (Seat seat in selectedClassroom.Seats)
             {
                 Seat newSeat = new Seat
                 {
-                    User = new User(),
+                    Student = new Models.Student(),
                     X = seat.X,
                     Y = seat.Y
                 };
@@ -77,8 +77,16 @@ namespace WebApp1.Pages.Admin
                 FileName = copyClassroom.FileName
             };
 
-            SessionName = DateTime.ToString("HH:mm MM.dd") + " " + selectedCourse.Name + " classroom " + newClassroom.Number;
-            Session.Course = selectedCourse;
+            Course newCourse = new Course
+            {
+                Name = copyCourse.Name,
+                Lecturer = selectedCourse.Lecturer,
+                NrOfStudents = copyCourse.NrOfStudents,
+                LecturerName = copyCourse.LecturerName
+            };
+
+            SessionName = DateTime.ToString("HH:mm dd.MM") + " " + newCourse.Name + " classroom " + newClassroom.Number;
+            Session.Course = newCourse;
             Session.ClassRoom = newClassroom;
             Session.Time = DateTime;
             Session.Name = SessionName;

@@ -23,7 +23,7 @@ namespace WebApp1.Pages.Admin
         public async Task OnGetAsync()
         {
             Seats = await _context.Seat.ToListAsync();
-            Courses = await _context.Course.ToListAsync();
+            Courses = await _context.Course.Where(c => c.isModel).ToListAsync();
             Classrooms = await _context.ClassRoom.ToListAsync();
             Lecturers = await _context.Lecturer.ToListAsync();
         }

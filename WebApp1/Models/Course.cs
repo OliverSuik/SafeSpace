@@ -16,4 +16,5 @@ namespace WebApp1.Models
         public string LecturerName { get; set; }
         public bool isModel { get; set; }
     }
+
 }

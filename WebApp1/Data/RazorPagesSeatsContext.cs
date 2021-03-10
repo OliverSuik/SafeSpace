@@ -15,12 +15,14 @@ namespace WebApp1.Data
         }
 
         public DbSet<WebApp1.Models.Seat> Seat { get; set; }
-        public DbSet<WebApp1.Models.User> User { get; set; }
+        public DbSet<WebApp1.Models.Student> Student { get; set; }
         public DbSet<WebApp1.Models.Course> Course { get; set; }
         public DbSet<WebApp1.Models.ClassRoom> ClassRoom { get; set; }
         public DbSet<WebApp1.Models.Session> Session { get; set; }
         public DbSet<WebApp1.Models.Lecturer> Lecturer { get; set; }
         public DbSet<WebApp1.Models.Admin> Admin { get; set; }
         public DbSet<WebApp1.Models.RegistrationToken> RegistrationToken { get; set; }
+        public DbSet<WebApp1.Models.GlobalVariables> GlobalVariables { get; set; }
+        public DbSet<WebApp1.Models.Cases> Cases { get; set; }
     }
 }

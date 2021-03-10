@@ -28,12 +28,14 @@ namespace WebApp1.Pages.Sysadmin
         public IList<RegistrationToken> RegistrationTokens { get; set; }
         public IList<IdentityUser> Users { get; set; }
         public IList<IdentityUser> UsersOfRole { get; set; }
+        public GlobalVariables GlobalVariables { get; set; }
         public async Task OnGetAsync()
         {
             Admins = await _context.Admin.ToListAsync();
             RegistrationTokens = await _context.RegistrationToken.Where(t => t.Role == "Admin").ToListAsync();
             Users = await _userManager.Users.ToListAsync();
             UsersOfRole = await _userManager.GetUsersInRoleAsync("Admin");
+            GlobalVariables = _context.GlobalVariables.First();
         }
     }
 }

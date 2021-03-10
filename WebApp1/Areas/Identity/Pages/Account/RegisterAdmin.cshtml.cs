@@ -67,6 +67,10 @@ namespace WebApp1.Areas.Identity.Pages.Account
                 return NotFound();
             }
             var token = await _context.RegistrationToken.FirstOrDefaultAsync(m => m.Token == id);
+            if (token == null)
+            {
+                return NotFound();
+            }
             Exp_time = token.ExpirationTime;
             UserEmail = token.Email;
 
@@ -98,6 +102,10 @@ namespace WebApp1.Areas.Identity.Pages.Account
                 } else
                 {
                     await _userManager.AddToRoleAsync(user, "Lecturer");
+
+                    Lecturer lecturer = new Lecturer { Name = token.Name, Email = token.Email };
+                    _context.Lecturer.Add(lecturer);
+                    await _context.SaveChangesAsync();
                 }
                 
                 if (result.Succeeded)

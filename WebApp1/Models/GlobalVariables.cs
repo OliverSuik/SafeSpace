@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace WebApp1.Models
 {
-    public class User
+    public class GlobalVariables
     {
         public int ID { get; set; }
-        public string Name { get; set; } = "-";
-        public bool isModel { get; set; }
+        public string EmailSuffix { get; set; }
+        public int TokenExpirationDays { get; set; }
     }
 }

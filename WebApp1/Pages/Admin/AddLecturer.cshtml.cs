@@ -37,16 +37,12 @@ namespace WebApp1.Pages.Admin
             {
                 return Page();
             }
+            var expirationTime = _context.GlobalVariables.First().TokenExpirationDays;
             DateTime d_time = DateTime.Now;
-            RegistrationToken regToken = new RegistrationToken {GenerateTime = d_time, ExpirationTime = d_time.AddDays(2),
-            Email = Lecturer.Email, Role = "Lecturer"};
+            RegistrationToken regToken = new RegistrationToken {GenerateTime = d_time, ExpirationTime = d_time.AddDays(expirationTime),
+            Email = Lecturer.Email, Role = "Lecturer", Name = Lecturer.Name};
             _context.RegistrationToken.Add(regToken);
-
-            Models.Lecturer lecturer = new Models.Lecturer {Name = Lecturer.Name, Email = Lecturer.Email};
-            _context.Lecturer.Add(lecturer);
-
             await _context.SaveChangesAsync();
-
             var callbackUrl = Url.Page(
             "/Account/RegisterAdmin",
             pageHandler: null,

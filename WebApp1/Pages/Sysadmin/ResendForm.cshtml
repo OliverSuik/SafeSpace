@@ -1,0 +1,17 @@
+﻿@page
+@model WebApp1.Pages.Sysadmin.ResendFormModel
+@{
+    ViewData["Title"] = "Resend form";
+}
+
+<h3>Resend form</h3>
+
+<h4>Are you sure you want to resend registration form to user @Model.Email ?</h4>
+<div>
+    <hr />
+    <form method="post">
+        <input type="hidden" asp-for="Token.ID" />
+        <input type="submit" value="Resend form" class="btn btn-danger" /> |
+        <a asp-page="ManageSystem">Back to List</a>
+    </form>
+</div>
