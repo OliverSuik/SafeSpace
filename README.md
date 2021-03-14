@@ -1,15 +1,8 @@
 ## SafeSpace
 
-#### Example:
-
-TweetWorld 
-
-An application used to filter data form Twitter based on user preference, built with React, Redux, JavaScript, and CSS.
+An application that allows students to book seats in classrooms during the COVID-19 pandemic and helps lecturers keep track of attendace and possible virus exposures.
 
 ## Project Status
-(only necessary if incomplete)
-
-#### Example:
 
 This project is currently in development. All the views, functionalities, authentication and authorization have been implemented. Deployment using MS Azure and testing is the next step.
 
