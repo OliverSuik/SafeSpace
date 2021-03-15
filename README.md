@@ -26,6 +26,7 @@ Creating a session.
       - This might seem obvious because you are IN this codebase, but to all other humans now is the time to talk about why you chose webpack instead of create react app, or D3, or vanilla JS instead of a framework etc. Brag about your choices and justify them here.  
 
 #### Example:  
+Live testing of the software will be carried out in the Delta Centre when normal contact learning in Estonia is allowed once again.
 
 This was a 3 week long project built during my third module at Turing School of Software and Design. Project goals included using technologies learned up until this point and familiarizing myself with documentation for new features.  
 
