@@ -24,6 +24,9 @@ namespace WebApp1.Pages
         public IList<ClassRoom> Classrooms { get; set; }
         public IList<Session> Sessions { get; set; }
         public IList<Session> LecturerSessions { get; set; }
+        public IList<Models.Lecturer> Lecturers { get; set; }
+        public IList<Session> UpcomingSessions { get; set; }
+        public IList<Session> PastSessions { get; set; }
         public async Task OnGetAsync()
         {
             var userEmail = User.Identity.Name;
@@ -31,8 +34,11 @@ namespace WebApp1.Pages
             LecturerName = lecturer.Name;
             Courses = await _context.Course.Where(c => !c.isModel).ToListAsync();
             Classrooms = await _context.ClassRoom.ToListAsync();
+            Lecturers = await _context.Lecturer.ToListAsync();
             Sessions = await _context.Session.ToListAsync();
             LecturerSessions = Sessions.Where(s => s.Course.Lecturer.Email == userEmail).ToList();
+            UpcomingSessions = LecturerSessions.Where(s => s.Time > DateTime.Now).ToList();
+            PastSessions = LecturerSessions.Where(s => s.Time <= DateTime.Now).ToList();
         }
     }
 }

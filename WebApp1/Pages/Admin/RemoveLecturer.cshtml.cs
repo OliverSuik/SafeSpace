@@ -22,6 +22,8 @@ namespace WebApp1.Pages.Admin
 
         [BindProperty]
         public IdentityUser Lecturer { get; set; }
+        public IList<Course> Courses { get; set; }
+        public IList<Models.Lecturer> Lecturers { get; set; }
         public async Task<IActionResult> OnGetAsync(string id)
         {
             if (id == null)
@@ -40,6 +42,8 @@ namespace WebApp1.Pages.Admin
 
         public async Task<IActionResult> OnPostAsync(string id)
         {
+            Courses = await _context.Course.ToListAsync();
+            Lecturers = await _context.Lecturer.ToListAsync();
             if (id == null)
             {
                 return NotFound();
@@ -49,6 +53,10 @@ namespace WebApp1.Pages.Admin
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+            if (lecturer == null)
+            {
+                return NotFound($"Unable to load lecturer.");
             }
             var courses = await _context.Course.ToListAsync();
             var isTeaching = false;

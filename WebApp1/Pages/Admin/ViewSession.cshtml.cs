@@ -27,6 +27,7 @@ namespace WebApp1.Pages.Admin
         public IList<Seat> Seat { get; set; }
         public IList<Course> Course { get; set; }
         public IList<ClassRoom> Classroom { get; set; }
+        public bool Ended { get; set; }
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             Seat = await _context.Seat.ToListAsync();
@@ -39,16 +40,20 @@ namespace WebApp1.Pages.Admin
                 return NotFound();
             }
             Session = await _context.Session.FirstOrDefaultAsync(m => m.ID == id);
-            Seats = Session.ClassRoom.Seats;
-            SessionTitle = Session.Course.Name + ", classroom " + Session.ClassRoom.Number;
-            SessionTime = Session.Time.ToString("HH:mm dd.MM");
-            NrOfSeats = Seats.Count;
-            Occupancy = Seats.Where(s => s.Student.Name != "-").Count();
-            OccupiedSeats = Seats.Where(s => s.Student.Name != "-").ToList();
             if (Session == null)
             {
                 return NotFound();
             }
+            Seats = Session.ClassRoom.Seats;
+            SessionTitle = Session.Course.Name + ", classroom " + Session.ClassRoom.Number;
+            SessionTime = Session.Time.ToString("HH:mm dd.MM");
+            if (Session.Time < DateTime.Now)
+            {
+                Ended = true;
+            }
+            NrOfSeats = Seats.Count;
+            Occupancy = Seats.Where(s => s.Student.Name != "-").Count();
+            OccupiedSeats = Seats.Where(s => s.Student.Name != "-").ToList();
             return Page();
         }
     }

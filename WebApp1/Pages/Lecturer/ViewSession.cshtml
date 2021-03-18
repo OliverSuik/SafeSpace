@@ -19,10 +19,14 @@
             <th>
                 @Html.DisplayNameFor(model => model.OccupiedSeats[0].Student)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OccupiedSeats[0].BookingTime)
-            </th>
-            <th></th>
+            @if (!Model.Ended)
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.OccupiedSeats[0].BookingTime)
+                </th>
+                <th></th>
+            }
+
         </tr>
     </thead>
     <tbody>
@@ -32,12 +36,15 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Student.Name)
                 </td>
-                <td>
-                    @item.BookingTime.ToString("MM.dd HH:mm")
-                </td>
-                <td>
-                    <a asp-page="RemoveStudent" asp-route-id="@item.Student.ID">Remove student</a>
-                </td>
+                @if (!Model.Ended)
+                {
+                    <td>
+                        @item.BookingTime.ToString("MM.dd HH:mm")
+                    </td>
+                    <td>
+                        <a asp-page="RemoveStudent" asp-route-id="@item.Student.ID">Remove student</a>
+                    </td>
+                }
             </tr>
         }
     </tbody>
