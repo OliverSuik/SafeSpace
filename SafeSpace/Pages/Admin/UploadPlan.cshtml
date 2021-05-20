@@ -1,0 +1,23 @@
+﻿@page
+@model SafeSpace.Pages.Admin.UploadPlanModel
+@{
+    ViewData["Title"] = "Upload plan";
+}
+<h4>Upload your floor plan</h4>
+<div>
+    <a asp-page="CreateSession">Back</a>
+</div>
+<div>
+    <form method="post">
+        <div class="form-group">
+            <label for="planFile">Upload PDF-file</label>
+            <input type="file" value="Tere" class="form-control-file" id="planFile" @*asp-for="Plan"*@
+                   accept="image/jpeg,image/gif,image/png,application/pdf">
+        </div>
+        <select class="form-control m-0" asp-for="SelectedPlanId" asp-items="Model.SelectPlan">
+            <option value="">Select a plan</option>
+        </select>
+        <span asp-validation-for="SelectedPlanId" class="text-danger"></span>
+        <button type="submit" class="btn btn-primary">Upload</button>
+    </form>
+</div>

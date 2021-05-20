@@ -1,0 +1,9 @@
+﻿@page
+@model SafeSpace.Pages.TestModel
+@{
+    ViewData["Title"] = "Test";
+}
+
+@DateTime.Now.DayOfWeek.ToString().Substring(0,3);
+//localized version
+@DateTime.Now.ToString("dddd");

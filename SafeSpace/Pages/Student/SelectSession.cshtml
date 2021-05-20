@@ -1,0 +1,28 @@
+﻿@page
+@model SafeSpace.Pages.SelectSessionModel;
+@{
+    ViewData["Title"] = "Select session";
+}
+<h4>Select session</h4>
+<p class="m-0">Week: 03.05-08.05</p>
+<div>
+    <form method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group row mt-4">
+            <label class="col-sm-2 col-form-label">Session</label>
+            <div class="col-sm-10">
+                <select class="form-control m-0" asp-for="SelectedSessionId" asp-items="Model.SelectSession">
+                    <option value="">Select a session</option>
+                </select>
+                <span asp-validation-for="SelectedSessionId" class="text-danger"></span>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

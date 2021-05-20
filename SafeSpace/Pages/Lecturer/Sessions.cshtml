@@ -1,0 +1,80 @@
+﻿@page
+@model SafeSpace.Pages.SessionsModel
+@{
+    ViewData["Title"] = "Sessions";
+}
+<h2 class="pb-3">Your sessions - @Model.LecturerName</h2>
+
+<h4>Upcoming sessions, 19.04-25.04</h4>
+<table class="table" style="table-layout:fixed;">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UpcomingSessions[0].Time)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpcomingSessions[0].Course)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpcomingSessions[0].ClassRoom)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.UpcomingSessions)
+        {
+            <tr>
+                <td>
+                    @item.Time.DayOfWeek.ToString().Substring(0, 3), @item.Time.ToString("HH:mm")-@item.Time.AddMinutes(Model.GlobalVariables.SessionDuration).ToString("HH:mm")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClassRoom.Number)
+                </td>
+                <td class="text-right">
+                    <a asp-page="ViewSession" asp-route-id="@item.ID">View</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h4>Past sessions</h4>
+<table class="table" style="table-layout:fixed;">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PastSessions[0].Time)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PastSessions[0].Course)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PastSessions[0].ClassRoom)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.PastSessions)
+        {
+            <tr>
+                <td>
+                    @item.Time.DayOfWeek.ToString().Substring(0, 3), @item.Time.ToString("HH:mm")-@item.Time.AddMinutes(Model.GlobalVariables.SessionDuration).ToString("HH:mm")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClassRoom.Number)
+                </td>
+                <td class="text-right">
+                    <a asp-page="ViewSession" asp-route-id="@item.ID">View</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

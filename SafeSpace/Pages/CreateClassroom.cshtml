@@ -1,0 +1,39 @@
+﻿@page
+@model SafeSpace.Pages.CreateClassroomModel
+@{
+    ViewData["Title"] = "Create a seating plan";
+}
+<h4>@ViewData["Title"]</h4>
+<a asp-page="/Admin/UploadPlan">Back</a>
+<div class="plan-content">
+    <form method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div>
+            Classroom number
+        </div>
+        <div class="row mb-3">
+            <div class="col-4">
+                <div>
+                    <input asp-for="Classroom.Number" class="form-control">
+                </div>
+                <span asp-validation-for="Classroom.Number" class="text-danger"></span>
+            </div>
+            <div class="col-8 ml-auto">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </div>
+        <component type="typeof(SafeSpace.Components.Admin)" render-mode="Server"/>
+        <input type="hidden" asp-for="Coords" id="Coords" />
+    </form>
+</div>
+
+@section Scripts {
+    <script src="_framework/blazor.server.js"></script>
+    <script>
+        window.updateCreatedSeats = function (Coords) {
+            document.getElementById('Coords').value = Coords;
+        }
+    </script>
+    <script>MyDOMGetBoundingClientRect = (element, parm) => { return document.getElementById("classroom_plan").getBoundingClientRect(); };</script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

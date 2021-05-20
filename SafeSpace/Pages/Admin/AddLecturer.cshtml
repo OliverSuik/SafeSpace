@@ -1,0 +1,31 @@
+﻿@page
+@model SafeSpace.Pages.Admin.AddLecturerModel
+@{
+    ViewData["Title"] = "Add lecturer";
+}
+<h2>Send registration form</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">Name</label>
+                <input asp-for="Lecturer.Name" class="form-control" />
+                <span asp-validation-for="Lecturer.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lecturer.Email" class="control-label"></label>
+                <input asp-for="Lecturer.Email" class="form-control" />
+                <span asp-validation-for="Lecturer.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Send form" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="ManageLecturers">Back to List</a>
+</div>

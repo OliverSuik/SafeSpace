@@ -1,0 +1,42 @@
+﻿@page
+@model SafeSpace.Pages.Sysadmin.ChangeConfigModel
+@{
+    ViewData["Title"] = "Change configuration";
+}
+<h2>Edit configuration</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="GlobalVar.ID" />
+            <div class="form-group">
+                <label class="control-label">Expiration time (days)</label>
+                <input asp-for="GlobalVar.TokenExpirationDays" class="form-control" />
+                <span asp-validation-for="GlobalVar.TokenExpirationDays" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Email regex</label>
+                <input asp-for="GlobalVar.EmailSuffix" class="form-control" />
+                <span asp-validation-for="GlobalVar.EmailSuffix" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Session duration (minutes)</label>
+                <input asp-for="GlobalVar.SessionDuration" class="form-control" />
+                <span asp-validation-for="GlobalVar.SessionDuration" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Session expires</label>
+                <input asp-for="GlobalVar.SessionExpirationDays" class="form-control" />
+                <span asp-validation-for="GlobalVar.SessionExpirationDays" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Confirm" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="ManageSystem">Back to List</a>
+</div>

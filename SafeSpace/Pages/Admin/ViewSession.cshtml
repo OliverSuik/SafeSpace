@@ -1,0 +1,68 @@
+﻿@page
+@model SafeSpace.Pages.Admin.ViewSessionModel
+@{
+    ViewData["Title"] = "View session";
+}
+<h3>@Model.SessionTitle</h3>
+<h5>@Model.SessionTime</h5>
+<div>
+    <a asp-page="Sessions">Back to List</a>
+</div>
+<h4>Students</h4>
+<h5>Occupancy: @Model.Occupancy/@Model.NrOfSeats</h5>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OccupiedSeats[0].Student)
+            </th>
+            @if (!Model.Ended)
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.OccupiedSeats[0].BookingTime)
+                </th>
+                <th></th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OccupiedSeats)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Student.Name)
+                </td>
+
+                @if (!Model.Ended)
+                {
+                    <td>
+                        @item.BookingTime.ToString("MM.dd HH:mm")
+                    </td>
+                    <td>
+                        <a asp-page="RemoveStudent" asp-route-id="@item.Student.ID">Remove student</a>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+<h4>Seating</h4>
+<div class="image-container">
+    @if (Model.BackGroundImage == null)
+    {
+        <p>Loading...</p>
+    }
+    else
+    {
+        <div class="floor-image" style="background-image: url(@Model.BackGroundImage)" />
+        @foreach (var seat in Model.Seats)
+        {
+            <div class="@((seat.Student.Name != "-" ? "square-confirmed-user" : "square" ))"
+                 id="square-@seat.ID" style="left: @(seat.X)px; top: @(seat.Y)px">
+                @((seat.Student.Name).Substring(0, 1).ToUpper())
+            </div>
+        }
+    }
+</div>

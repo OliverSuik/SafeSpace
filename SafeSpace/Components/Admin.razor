@@ -1,0 +1,450 @@
+﻿@inject IJSRuntime JS;
+
+<div class="plan">
+    <div class="admin-content"
+         @onclick="async (e) => {await UpdateUserName(); }" value="@CreatedSeats">
+        <div class="d-flex">
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-outline-primary" @onclick="ChangeAddActive">
+                    <input type="radio" name="options" id="option2" autocomplete="off">ADD
+                </label>
+                <label class="btn btn-outline-primary ml-2" @onclick="ChangeSelectActive">
+                    <input type="radio" name="options" id="option3" autocomplete="off">SELECT
+                </label>
+            </div>
+            <div class="pt-2 ml-1">
+
+            </div>
+            <input type="checkbox" class="btn-check" id="btn-check-outlined" autocomplete="off" @bind="_copyOn" hidden>
+            <label for="btn-check-outlined" class="btn btn btn-outline-primary ml-auto p-2 m-0">COPY</label>
+            <div type="button" class="btn btn btn-outline-primary ml-2 p-2" @onclick="DeleteSelected">REMOVE</div>
+            <div type="button" class="btn btn btn-outline-primary ml-2" @onclick="Undo">UNDO</div>
+        </div>
+        <p class="pt-2 mb-1">Number of seats: @(_seats.Count == 0 ? "-" : _seats.Count.ToString())</p>
+        <div class="plan-area-admin">
+            <div class="image-container" style="cursor: url(@_cursorImageAdd), auto;"
+                 @onclick="ClickOnPlan"
+                 @onmousedown="StartSelecting"
+                 @onmousemove="SelectionMove"
+                 @onmouseup="EndSelecting">
+
+                @for (int i = 0; i < _seats.Count; i++)
+                {
+                    <div class="square-selected-admin" draggable="true"
+                         style="left: @(_seats[i].X)px; top: @(_seats[i].Y)px; z-index: @_seats[i].ZIndex;background-color: @(_seats[i].Selected ? "rgba(200, 200, 200, 0.80)" : "rgb(95, 170, 255, 0.70)");color: @(_seats[i].Selected ? "black" : "white")"
+                         @onclick="ClickOnSeat"
+                         @ondragstart="PickUp"
+                         @ondragend="PutDown"
+                         @onmouseover="ChangeMouseOver"
+                         @onmouseout="ChangeMouseOut">
+                        <div class="seatMenu" hidden="@_seats[i].MenuHidden">
+                            <div type="button" class="btn btn-primary" @onclick:stopPropagation="true" @onclick="RemoveSeat">REMOVE</div>
+                        </div>
+                    </div>
+                }
+
+                <div class="floor-image" style="background-image: url(@_backGroundImage_pyhavaimu)" id="classroom_plan">
+                    <div class="selection-box" hidden="@_selectionHidden"
+                         style="left: @(_selectionLeft)px; top: @(_selectionTop)px; width: @(_selectionWidth)px; height: @(_selectionHeight)px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<input class="form-control" @onchange="async (e) => { CreatedSeats = _cursorImageAdd; await UpdateUserName(); }" value="@CreatedSeats" />*@
+</div>
+
+@code {
+    [Parameter]
+    public string Value { get; set; }
+
+    [Parameter]
+    public string CreatedSeats { get; set; }
+
+    public async Task UpdateUserName()
+    {
+        CreatedSeats = "";
+        foreach (Seat seat in _seats)
+        {
+            CreatedSeats = CreatedSeats + seat.X + "," + seat.Y + ",";
+        }
+        await JS.InvokeVoidAsync("updateCreatedSeats", CreatedSeats);
+    }
+
+    private List<Seat> _seats = new List<Seat>();
+    private List<Seat> _seatsHistory = new List<Seat>();
+    private List<Seat> _seatsMoved = new List<Seat>();
+    private Seat _startPos = new Seat();
+    private bool _addIsActive = true;
+    private bool _lastActionAdd;
+    private String _cursorImageAdd = "https://safespacestorage.blob.core.windows.net/container/cursor_30x30.png";
+    private String _backGroundImage = "https://eu-central-1.linodeobjects.com/wemply/abb/public/55ef77ff25714b63844cf34590d835ac.4.svg";
+    private String _backGroundImage_pyhavaimu = "https://safespacestorage.blob.core.windows.net/container/pyhavaimu-auditoorium_2.png";
+    //private String _backGroundImage_pyhavaimu = "https://safespacestorage.blob.core.windows.net/container/pyhavaimu-auditoorium-png.png";
+    private bool _mouseOnSeat;
+    private bool _copyOn;
+
+    //Constants
+    private int _screenOffsetX = 396;
+    private int _screenOffsetY = 292;
+    private int _imageWidth = 500;
+    private int _imageHeight = 1500;
+    private int _squareWidth = 30;
+    private int _squareHeight = 30;
+
+    //Selecting
+    private List<Seat> _selectedSeats = new List<Seat>();
+    private double _selectionLeft;
+    private double _selectionTop;
+    private double _selectionHeight;
+    private double _selectionWidth;
+    private double _x1;
+    private double _x2;
+    private double _y1;
+    private double _y2;
+    private bool _selectionHidden = true;
+
+    //Test
+    private double _boundX;
+    private double _boundY;
+    private double _clientX;
+    private double _clientY;
+    private string plan_id = "classroom_plan";
+
+    protected async Task GetBounds()
+    {
+        var result = await JS.InvokeAsync<BoundingClientRect>("MyDOMGetBoundingClientRect", "tere");
+        var x = (double)(result.Left);
+        var y = (double)(result.Top);
+        _boundX = x;
+        _boundY = y;
+    }
+
+    private void ChangeMouseOver()
+    {
+        _mouseOnSeat = true;
+    }
+
+    private void KeyUp(KeyboardEventArgs e)
+    {
+        _copyOn = true;
+    }
+
+    private void ChangeMouseOut()
+    {
+        _mouseOnSeat = false;
+    }
+
+    private void ClickOnPlan(MouseEventArgs e)
+    {
+        if (_addIsActive && !_mouseOnSeat)
+        {
+            AddSeat(e);
+        }
+    }
+
+    private void ClickOnSeat(MouseEventArgs e)
+    {
+        if (_mouseOnSeat)
+        {
+            ChangeSeat(e);
+        }
+    }
+
+    private void ChangeSeat(MouseEventArgs e)
+    {
+        foreach (Seat seat in _seats)
+        {
+            if ((seat.X <= e.ClientX - _boundX && seat.X + _squareWidth >= e.ClientX - _boundX) && (seat.Y <= e.ClientY - _boundY && seat.Y + _squareHeight >= e.ClientY - _boundY))
+            {
+                seat.MenuHidden = !seat.MenuHidden;
+                seat.ZIndex = 1;
+                seat.Selected = !seat.MenuHidden;
+            }
+            else
+            {
+                seat.MenuHidden = true;
+                seat.ZIndex = 0;
+                seat.Selected = false;
+            }
+        }
+    }
+
+    private void ChangeAddActive()
+    {
+        _addIsActive = true;
+        _cursorImageAdd = "https://i.ibb.co/HPDsDBz/Untitled.png";
+    }
+
+    private void ChangeSelectActive()
+    {
+        _addIsActive = false;
+        _cursorImageAdd = "";
+    }
+
+    private double FindClosestX(double x, double y, int offSet)
+    {
+        double currentClosest = Double.MaxValue;
+        if (!_seats.Any())
+        {
+            return x;
+        }
+        foreach (Seat seat in _seats.Where(coordinate => Math.Abs(coordinate.X - x) < offSet && Math.Abs(coordinate.Y - y) < 50 &&
+                                                                     Math.Abs(coordinate.X - x) < currentClosest))
+        {
+            currentClosest = seat.X;
+        }
+        return currentClosest == Double.MaxValue ? x : currentClosest;
+    }
+
+    private double FindClosestY(double y, double x, int offSet)
+    {
+        double currentClosest = Double.MaxValue;
+        if (!_seats.Any())
+        {
+            return y;
+        }
+        foreach (Seat seat in _seats.Where(coordinate => Math.Abs(coordinate.Y - y) < offSet && Math.Abs(coordinate.X - x) < 50 &&
+                                                                     Math.Abs(coordinate.Y - y) < currentClosest))
+        {
+            currentClosest = seat.Y;
+        }
+        return currentClosest == Double.MaxValue ? y : currentClosest;
+    }
+
+    private bool CheckIfInBounds(double x, double y)
+    {
+        if (x + _squareWidth > _imageWidth || y + _squareHeight > _imageHeight
+        || x < 0 || y < 0)
+        {
+            return false;
+        }
+        foreach (Seat seat in _seats.Where(coordinate => (coordinate.X <= x + _squareWidth && coordinate.X + _squareWidth >= x + _squareWidth)
+                                                               && (coordinate.Y <= y + _squareHeight && coordinate.Y + _squareHeight >= y + _squareHeight)))
+        {
+            return false;
+        }
+        return true;
+    }
+
+    private async void AddSeat(MouseEventArgs e)
+    {
+        await GetBounds();
+        UpdateHistory();
+        _lastActionAdd = true;
+        double coordX = e.ClientX - _boundX;
+        double coordY = e.ClientY - _boundY;
+        double closestX = FindClosestX(coordX, coordY, 10);
+        double closestY = FindClosestY(coordY, coordX, 10);
+        bool isInBounds = CheckIfInBounds(closestX, closestY);
+        DeselectAll();
+        if (isInBounds)
+        {
+            _seats.Add(new Seat()
+            {
+                X = (long)closestX,
+                Y = (long)closestY
+            }
+                );
+        }
+        await UpdateUserName();
+    }
+
+    private void RemoveSeat(MouseEventArgs e)
+    {
+        UpdateHistory();
+        _lastActionAdd = false;
+        _seats.RemoveAll(seat => seat.MenuHidden == false);
+        _mouseOnSeat = false;
+        DeselectAll();
+    }
+
+    private void DeleteSelected()
+    {
+        UpdateHistory();
+        _lastActionAdd = false;
+        _seats.RemoveAll(seat => seat.Selected);
+    }
+
+    private void UpdateHistory()
+    {
+        _seatsHistory.Clear();
+        _seatsHistory.AddRange(_seats);
+    }
+
+    private void Undo()
+    {
+        if (!_lastActionAdd)
+        {
+            foreach (Seat seat in _seatsHistory)
+            {
+                if (!_seats.Contains(seat))
+                {
+                    _seats.Add(seat);
+                }
+            }
+        }
+        else
+        {
+            _seats.Clear();
+            _seats.AddRange(_seatsHistory);
+        }
+        DeselectAll();
+    }
+
+    private void PickUp(MouseEventArgs e)
+    {
+        _startPos = new Seat
+        {
+            X = (long)(e.ClientX - _boundX),
+            Y = (long)(e.ClientY - _boundY)
+        };
+        foreach (Seat seat in _seats)
+        {
+            if (seat.Selected || (seat.X <= _startPos.X && seat.X + _squareWidth >= _startPos.X) && (seat.Y <= _startPos.Y && seat.Y + _squareHeight >= _startPos.Y))
+            {
+                _seatsMoved.Add(seat);
+            }
+        }
+
+    }
+
+    private void PutDown(MouseEventArgs e)
+    {
+        UpdateHistory();
+        _lastActionAdd = true;
+
+        foreach (Seat seat in _seatsMoved)
+        {
+            _seats.Remove(seat);
+            double dragOffsetX = Math.Abs(seat.X - _startPos.X);
+            double dragOffsetY = Math.Abs(seat.Y - _startPos.Y);
+            double coordX = e.ClientX - dragOffsetX - _boundX;
+            double coordY = e.ClientY - dragOffsetY - _boundY;
+            double closestX = FindClosestX(coordX, coordY, 10);
+            double closestY = FindClosestY(coordY, coordX, 10);
+            bool isInBounds = CheckIfInBounds(closestX, closestY);
+            if (isInBounds && !seat.Selected)
+            {
+                _seats.Add(new Seat()
+                {
+                    X = (long)closestX,
+                    Y = (long)closestY
+                }
+                    );
+                if (_copyOn)
+                {
+                    _seats.Add(seat);
+                }
+            }
+            else
+            {
+                closestX = seat.X + e.ClientX - _startPos.X - _boundX;
+                closestY = seat.Y + e.ClientY - _startPos.Y - _boundY;
+                isInBounds = CheckIfInBounds(closestX, closestY);
+                if (isInBounds)
+                {
+                    _seats.Add(new Seat()
+                    {
+                        X = (long)(seat.X + e.ClientX - _startPos.X - _boundX),
+                        Y = (long)(seat.Y + e.ClientY - _startPos.Y - _boundY)
+                    }
+                        );
+                    if (_copyOn)
+                    {
+                        _seats.Add(seat);
+                    }
+                }
+                else
+                {
+                    _seats.Add(seat);
+                }
+            }
+        }
+        _startPos = new Seat();
+        _seatsMoved.Clear();
+        DeselectAll();
+    }
+
+    private async void StartSelecting(MouseEventArgs e)
+    {
+        await GetBounds();
+        if (!_mouseOnSeat && !_addIsActive)
+        {
+            DeselectAll();
+            _selectionHidden = false;
+            _x1 = e.ClientX - _boundX;
+            _y1 = e.ClientY - _boundY;
+            ReCalcSelection();
+        }
+    }
+
+    private void SelectionMove(MouseEventArgs e)
+    {
+        _x2 = e.ClientX - _boundX;
+        _y2 = e.ClientY - _boundY;
+        _clientX = e.ClientX;
+        _clientY = e.ClientY;
+        ReCalcSelection();
+    }
+
+    private void EndSelecting()
+    {
+        foreach (Seat seat in _seats)
+        {
+            if (seat.X < _selectionLeft + _selectionWidth && seat.X > _selectionLeft && seat.Y < _selectionHeight + _selectionTop && seat.Y > _selectionTop && !_addIsActive)
+            {
+                _selectedSeats.Add(seat);
+                seat.Selected = true;
+            }
+        }
+        _selectionHidden = true;
+        _selectionLeft = 0;
+        _selectionTop = 0;
+        _selectionHeight = 0;
+        _selectionWidth = 0;
+    }
+
+    private void ReCalcSelection()
+    {
+        double x3 = Math.Min(_x1, _x2);
+        double x4 = Math.Max(_x1, _x2);
+        double y3 = Math.Min(_y1, _y2);
+        double y4 = Math.Max(_y1, _y2);
+        _selectionLeft = x3;
+        _selectionTop = y3;
+        _selectionWidth = x4 - x3;
+        _selectionHeight = y4 - y3;
+    }
+
+
+    private void DeselectAll()
+    {
+        _selectedSeats.Clear();
+        foreach (Seat seat in _seats)
+        {
+            seat.Selected = false;
+            seat.MenuHidden = true;
+        }
+    }
+
+    public class Seat
+    {
+        public long X { get; set; }
+        public long Y { get; set; }
+        public bool MenuHidden { get; set; } = true;
+        public bool Selected { get; set; }
+        public int ZIndex { get; set; }
+    }
+
+    public class BoundingClientRect
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double Width { get; set; }
+        public double Height { get; set; }
+        public double Top { get; set; }
+        public double Right { get; set; }
+        public double Bottom { get; set; }
+        public double Left { get; set; }
+    }
+}

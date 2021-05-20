@@ -1,0 +1,115 @@
+﻿@page
+@model SafeSpace.Pages.Admin.SessionsModel
+@{
+    ViewData["Title"] = "Sessions";
+}
+<h2>Sessions</h2>
+<div class="pb-3">
+    <a asp-page="CreateSession"><div class="btn btn-primary">Create session</div></a>
+    <a asp-page="ManageLecturers" class="pl-2"><div class="btn btn-primary">Manage lecturers</div></a>
+</div>
+
+<h4>Upcoming sessions</h4>
+<table class="table" style="table-layout:fixed;">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UpcomingSessions[0].Time)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpcomingSessions[0].Course)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpcomingSessions[0].ClassRoom)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.UpcomingSessions)
+        {
+            <tr>
+                <td>
+                    @item.Time.ToString("HH:mm")-@item.Time.AddMinutes(Model.GlobalVariables.SessionDuration).ToString("HH:mm"), @item.Time.ToString("dd.MM")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClassRoom.Number)
+                </td>
+                <td class="text-right">
+                    <a asp-page="ViewSession" asp-route-id="@item.ID">Details</a> |
+                    <a asp-page="DeleteSession" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<h4>Past sessions</h4>
+<table class="table" style="table-layout:fixed;">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PastSessions[0].Time)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PastSessions[0].Course)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PastSessions[0].ClassRoom)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.PastSessions)
+        {
+            <tr>
+                <td>
+                    @item.Time.ToString("HH:mm")-@item.Time.AddMinutes(Model.GlobalVariables.SessionDuration).ToString("HH:mm"), @item.Time.ToString("dd.MM")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClassRoom.Number)
+                </td>
+                <td class="text-right">
+                    <a asp-page="ViewSession" asp-route-id="@item.ID">Details</a> |
+                    <a asp-page="DeleteSession" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<h4>Cases</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Cases[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cases[0].Description)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Cases)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td class="text-right">
+                    <a asp-page="ViewCase" asp-route-id="@item.ID">View</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
