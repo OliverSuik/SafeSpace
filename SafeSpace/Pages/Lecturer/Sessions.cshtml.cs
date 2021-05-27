@@ -28,6 +28,8 @@ namespace SafeSpace.Pages
         public IList<Session> UpcomingSessions { get; set; }
         public IList<Session> PastSessions { get; set; }
         public GlobalVariables GlobalVariables { get; set; }
+        public string Week { get; set; }
+
         public async Task OnGetAsync()
         {
             var userEmail = User.Identity.Name;
@@ -43,6 +45,10 @@ namespace SafeSpace.Pages
             PastSessions = LecturerSessions.Where(s => s.Time <= DateTime.Now).ToList();
             PastSessions = PastSessions.OrderBy(s => s.Time).ToList();
             GlobalVariables = _context.GlobalVariables.First();
+            DayOfWeek day = DateTime.Now.DayOfWeek;
+            int days = day - DayOfWeek.Monday;
+            DateTime start = DateTime.Now.AddDays(-days);
+            Week = start.ToString("dd.MM") + "-" + start.AddDays(6).ToString("dd.MM");
         }
     }
 }

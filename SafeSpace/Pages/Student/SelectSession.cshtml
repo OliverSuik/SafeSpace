@@ -4,7 +4,7 @@
     ViewData["Title"] = "Select session";
 }
 <h4>Select session</h4>
-<p class="m-0">Week: 03.05-08.05</p>
+<p class="m-0">Week: @Model.Week</p>
 <div>
     <form method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -21,6 +21,30 @@
     </form>
 </div>
 
+<h4 class="pt-4">Upcoming sessions</h4>
+@if (Model.UpcomingSessions.Count == 0)
+{
+    <p>You have not booked any seats.</p>
+}
+else
+{
+    <table class="table">
+        <tbody>
+            @foreach (var item in Model.UpcomingSessions)
+            {
+                <tr>
+                    <td>
+                        <b>@item.CourseName</b>,
+                        @item.Name
+                    </td>
+                    <td class="text-right">
+                        <a asp-page="PickSeats" asp-route-id="@item.ID">View</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 
 
 @section Scripts {

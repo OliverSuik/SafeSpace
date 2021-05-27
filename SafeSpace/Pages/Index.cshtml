@@ -8,38 +8,43 @@
 }
 
 <div class="text-center">
-    @if (User.IsInRole("Student") || User.IsInRole("Admin") || User.IsInRole("Lecturer")) {
-    <h1 class="display-4">SafeSpace</h1>
-    } else
+    @if (User.IsInRole("Student") || User.IsInRole("Admin") || User.IsInRole("Lecturer"))
     {
-    <h1 class="display-4">Welcome to SafeSpace</h1>
+        <h1 class="display-4">SafeSpace</h1>
+    }
+    else
+    {
+        <h1 class="display-4">Welcome to SafeSpace</h1>
+        <p>Attend lessons safely by booking a seat with us</p>
     }
 
     <ul class="navbar-nav flex-grow-1">
         @if (User.IsInRole("Admin"))
         {
-        <li class="nav-item">
-            <a class="btn btn-outline-primary mt-3 mb-3" asp-area="" asp-page="/Admin/Sessions">View sessions</a>
-        </li>
+            <li class="nav-item">
+                <a class="btn btn-outline-primary mt-3 mb-3" asp-area="" asp-page="/Admin/Sessions">View sessions</a>
+            </li>
         }
         else if (User.IsInRole("Lecturer"))
         {
-        <li class="nav-item">
-            <a class="btn btn-outline-primary mt-3 mb-3" asp-area="" asp-page="/Lecturer/Sessions">View sessions</a>
-        </li>
+            <li class="nav-item">
+                <a class="btn btn-outline-primary mt-3 mb-3" asp-area="" asp-page="/Lecturer/Sessions">View sessions</a>
+            </li>
         }
         else if (User.IsInRole("Student"))
         {
-        <li class="nav-item">
-            <a class="btn btn-outline-primary mt-3 mb-3" asp-area="" asp-page="/Student/SelectSession">Book a seat</a>
-        </li>
-        <li class="nav-item">
-            <a asp-area="Identity" asp-page="/Account/Manage/Positive">I have tested positive for COVID-19</a>
-        </li>
-        } else {
-        <li class="nav-item" id="reg-button">
-            <a class="btn btn-primary mt-5 mb-3 btn-lg" asp-area="Identity" asp-page="/Account/Register">Sign up</a>
-        </li>
+            <li class="nav-item">
+                <a class="btn btn-outline-primary mt-3 mb-3" asp-area="" asp-page="/Student/SelectSession">Book a seat</a>
+            </li>
+            <li class="nav-item">
+                <a asp-area="Identity" asp-page="/Account/Manage/Positive">I have tested positive for COVID-19</a>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item" id="reg-button">
+                <a class="btn btn-primary mt-5 mb-3 btn-lg" asp-area="Identity" asp-page="/Account/Register">Sign up</a>
+            </li>
         }
     </ul>
     <div id="frontpage-image"></div>
