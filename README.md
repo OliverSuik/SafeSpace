@@ -4,7 +4,7 @@ An application that allows students to book seats in classrooms during the COVID
 
 ## Project Status
 
-This project is currently in development. All the views, functionalities, authentication and authorization have been implemented. Deployment using MS Azure and testing is the next step.
+Deployed using MS Azure and being tested.
 
 ## Project Description
 The application includes views for students, lecturers, administrators and a system administrator. Live testing of the software will be carried out in the Delta Centre when normal contact learning in Estonia is allowed once again.
