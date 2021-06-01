@@ -2,19 +2,18 @@
 @model SafeSpace.Pages.Admin.ViewClassroomModel
 @{
     ViewData["Title"] = "View classroom";
-    String _backGroundImage = "https://safespacestorage.blob.core.windows.net/container/pyhavaimu-auditoorium-png.png";
 }
 
 <h4>Classroom @Model.Classroom.Name</h4>
 <a asp-page="ClassroomList">Back</a>
 <div class="image-container">
-    @if (_backGroundImage == null)
+    @if (@Model._backGroundImage == null)
     {
         <p>Loading...</p>
     }
     else
     {
-        <div class="floor-image" style="background-image: url(@_backGroundImage)" />
+        <div class="floor-image" style="background-image: url(@Model._backGroundImage)" />
         @foreach (var seat in Model.Classroom.Seats)
         {
             <div class="square" style="left: @(seat.X)px; top: @(seat.Y)px">

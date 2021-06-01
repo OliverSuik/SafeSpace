@@ -56,14 +56,7 @@ namespace SafeSpace.Pages.Lecturer
             NrOfSeats = Seats.Count;
             Occupancy = Seats.Where(s => s.Student.Name != "-").Count();
             OccupiedSeats = Seats.Where(s => s.Student.Name != "-").ToList();
-            if (Session.ClassRoom.Number == 2)
-            {
-                BackGroundImage = "https://safespacestorage.blob.core.windows.net/container/pyhavaimu-auditoorium-png.png";
-            }
-            else
-            {
-                BackGroundImage = "https://safespacestorage.blob.core.windows.net/container/pyhavaimu-auditoorium_2.png";
-            }
+            BackGroundImage = "https://safespacestorage.blob.core.windows.net/container/classroom_" + Session.ClassRoom.Number +  ".png";
             return Page();
         }
     }

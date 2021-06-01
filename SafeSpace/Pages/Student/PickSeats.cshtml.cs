@@ -46,14 +46,7 @@ namespace SafeSpace.Pages.Student
             Classroom = await _context.ClassRoom.ToListAsync();
             Students = await _context.Student.ToListAsync();
             Session = await _context.Session.FirstOrDefaultAsync(m => m.ID == id);
-            if (Session.ClassRoom.Number == 2)
-            {
-                BackGroundImage = "https://safespacestorage.blob.core.windows.net/container/pyhavaimu-auditoorium-png.png";
-            }
-            else
-            {
-                BackGroundImage = "https://safespacestorage.blob.core.windows.net/container/pyhavaimu-auditoorium_2.png";
-            }
+            BackGroundImage = "https://safespacestorage.blob.core.windows.net/container/classroom_" + Session.ClassRoom.Number + ".png";
             var confirmedSeat = await _context.Seat.FirstOrDefaultAsync(m => m.Student.Name == Name &&
             Session.ClassRoom.Seats.Contains(m));
            

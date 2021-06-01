@@ -14,18 +14,18 @@ namespace SafeSpace.Pages.Admin
     {
         [BindProperty]
         [Required(ErrorMessage = "Please select a classroom.")]
-        public int SelectedPlanId { get; set; }
+        public int SelectedPlanId { get; set; } = 1;
         public SelectList SelectPlan { get; set; }
         public void OnGet()
         {
             List<SelectListItem> items = new List<SelectListItem>();
-            items.Add(new SelectListItem { Text = "pyhavaimu_auditoorium_1", Value = "1"});
-            items.Add(new SelectListItem { Text = "pyhavaimu_auditoorium_2", Value = "2" });
+            items.Add(new SelectListItem { Text = "classroom_1", Value = "1"});
+            items.Add(new SelectListItem { Text = "classroom_2", Value = "2" });
             SelectPlan = new SelectList(items, "Value", "Text");
         }
         public IActionResult OnPost()
         {
-            string[] plans = { "pyhavaimu_auditoorium_1", "pyhavaimu_auditoorium_2" };
+            string[] plans = { "1", "2" };
             return RedirectToPage("../CreateClassroom", new { fileName = plans[SelectedPlanId - 1] });
         }
 

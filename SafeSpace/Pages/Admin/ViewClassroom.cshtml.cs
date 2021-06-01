@@ -19,6 +19,7 @@ namespace SafeSpace.Pages.Admin
         public IList<Seat> Seats { get; set; }
         public IList<ClassRoom> Classrooms { get; set; }
         public ClassRoom Classroom { get; set; }
+        public string _backGroundImage { get; set; }
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             Seats = await _context.Seat.ToListAsync();
@@ -30,6 +31,7 @@ namespace SafeSpace.Pages.Admin
             }
 
             Classroom = await _context.ClassRoom.FirstOrDefaultAsync(m => m.ID == id);
+            _backGroundImage = "https://safespacestorage.blob.core.windows.net/container/classroom_" + Classroom.Number + ".png";
 
             if (Classroom == null)
             {

@@ -1,6 +1,8 @@
 ﻿@inject IJSRuntime JS;
+@inject NavigationManager MyNavigationManager;
 
 <div class="plan">
+    @{_backGroundImage = "https://safespacestorage.blob.core.windows.net/container/classroom_" + MyNavigationManager.Uri.Substring(MyNavigationManager.Uri.Length - 1) + ".png"; }
     <div class="admin-content"
          @onclick="async (e) => {await UpdateUserName(); }" value="@CreatedSeats">
         <div class="d-flex">
@@ -42,8 +44,7 @@
                         </div>
                     </div>
                 }
-
-                <div class="floor-image" style="background-image: url(@_backGroundImage_pyhavaimu)" id="classroom_plan">
+                <div class="floor-image" style="background-image: url(@_backGroundImage)" id="classroom_plan">
                     <div class="selection-box" hidden="@_selectionHidden"
                          style="left: @(_selectionLeft)px; top: @(_selectionTop)px; width: @(_selectionWidth)px; height: @(_selectionHeight)px"></div>
                 </div>
@@ -77,9 +78,7 @@
     private bool _addIsActive = true;
     private bool _lastActionAdd;
     private String _cursorImageAdd = "https://safespacestorage.blob.core.windows.net/container/cursor_30x30.png";
-    private String _backGroundImage = "https://eu-central-1.linodeobjects.com/wemply/abb/public/55ef77ff25714b63844cf34590d835ac.4.svg";
-    private String _backGroundImage_pyhavaimu = "https://safespacestorage.blob.core.windows.net/container/pyhavaimu-auditoorium_2.png";
-    //private String _backGroundImage_pyhavaimu = "https://safespacestorage.blob.core.windows.net/container/pyhavaimu-auditoorium-png.png";
+    private String _backGroundImage = "https://safespacestorage.blob.core.windows.net/container/classroom_2.png";
     private bool _mouseOnSeat;
     private bool _copyOn;
 

@@ -45,7 +45,7 @@ namespace SafeSpace.Areas.Identity.Pages.Account.Manage
                 {
                     if (seat.Student.Name == User.Identity.Name)
                     {
-                        sessionNames.Add(session.Name);
+                        sessionNames.Add(session.Time.ToString("g") + ", classroom " + session.ClassRoom.Number);
                         sessions.Add(session);
                     }
                 }
